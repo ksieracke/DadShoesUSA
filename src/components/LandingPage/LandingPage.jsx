@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import RegisterForm from '../RegisterForm/RegisterForm';
 
 function LandingPage() {
-  const [heading, setHeading] = useState('Welcome');
+  const [heading, setHeading] = useState('Dad Shoes USA');
   const history = useHistory();
 
   const onLogin = (event) => {
@@ -16,7 +16,7 @@ function LandingPage() {
   return (
     <div className="container">
       <h2>{heading}</h2>
-      <img href='https://i5.walmartimages.com/seo/Nike-Men-s-Air-Monarch-Iv-Cross-Trainer-White-Metallic-Silver-Midnight-Navy-13_233a2e7b-f498-4c0e-bff5-94e1da4ed9db_1.04027cb32f4e567409ba148660caa561.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF'></img>
+      <img src="../../../public/images/placeholderlandingimage.jpg"></img>
 
       <div className="grid">
         <div className="grid-col grid-col_8">
