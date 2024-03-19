@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import './LandingPage.css';
+//import './LandingPage.css';
 
 // CUSTOM COMPONENTS
 import RegisterForm from '../RegisterForm/RegisterForm';
@@ -16,6 +16,7 @@ function LandingPage() {
   return (
     <div className="container">
       <h2>{heading}</h2>
+      <img href='https://i5.walmartimages.com/seo/Nike-Men-s-Air-Monarch-Iv-Cross-Trainer-White-Metallic-Silver-Midnight-Navy-13_233a2e7b-f498-4c0e-bff5-94e1da4ed9db_1.04027cb32f4e567409ba148660caa561.jpeg?odnHeight=640&odnWidth=640&odnBg=FFFFFF'></img>
 
       <div className="grid">
         <div className="grid-col grid-col_8">
@@ -31,25 +32,6 @@ function LandingPage() {
             luctus. Duis a sapien metus.
           </p>
 
-          <p>
-            Praesent consectetur orci dui, id elementum eros facilisis id. Sed
-            id dolor in augue porttitor faucibus eget sit amet ante. Nunc
-            consectetur placerat pharetra. Aenean gravida ex ut erat commodo, ut
-            finibus metus facilisis. Nullam eget lectus non urna rhoncus
-            accumsan quis id massa. Curabitur sit amet dolor nisl. Proin
-            euismod, augue at condimentum rhoncus, massa lorem semper lacus, sed
-            lobortis augue mi vel felis. Duis ultrices sapien at est convallis
-            congue.
-          </p>
-
-          <p>
-            Fusce porta diam ac tortor elementum, ut imperdiet metus volutpat.
-            Suspendisse posuere dapibus maximus. Aliquam vitae felis libero. In
-            vehicula sapien at semper ultrices. Vivamus sed feugiat libero. Sed
-            sagittis neque id diam euismod, ut egestas felis ultricies. Nullam
-            non fermentum mauris. Sed in enim ac turpis faucibus pretium in sit
-            amet nisi.
-          </p>
         </div>
         <div className="grid-col grid-col_4">
           <RegisterForm />
