@@ -2,21 +2,32 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 function RegisterForm() {
-  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [address, setAddress] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState(''); 
+  const [passwordsMatch, setPasswordsMatch] = useState(true); 
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
 
   const registerUser = (event) => {
     event.preventDefault();
 
-    dispatch({
-      type: 'REGISTER',
-      payload: {
-        username: username,
-        password: password,
-      },
-    });
+    if (password === confirmPassword) {
+      dispatch({
+        type: 'REGISTER',
+        payload: {
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          password: password,
+        },
+      });
+    } else {
+      setPasswordsMatch(false);
+    }
   }; // end registerUser
 
   return (
@@ -28,14 +39,50 @@ function RegisterForm() {
         </h3>
       )}
       <div>
-        <label htmlFor="username">
-          Username:
+        <label htmlFor="firstName">
+          First Name:
           <input
             type="text"
-            name="username"
-            value={username}
+            name="firstName"
+            value={firstName}
             required
-            onChange={(event) => setUsername(event.target.value)}
+            onChange={(event) => setFirstName(event.target.value)}
+          />
+        </label>
+        </div>
+        <div>
+        <label htmlFor="lastName">
+          Last Name:
+          <input
+            type="text"
+            name="lastName"
+            value={lastName}
+            required
+            onChange={(event) => setLastName(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="address">
+          Address:
+          <input
+            type="text"
+            name="address"
+            value={address}
+            required
+            onChange={(event) => setAddress(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="email">
+          Email:
+          <input
+            type="text"
+            name="email"
+            value={email}
+            required
+            onChange={(event) => setEmail(event.target.value)}
           />
         </label>
       </div>
@@ -50,6 +97,19 @@ function RegisterForm() {
             onChange={(event) => setPassword(event.target.value)}
           />
         </label>
+      </div>
+      <div>
+        <label htmlFor="confirmPassword">
+          Confirm Password:
+          <input
+            type="password"
+            name="confirmPassword"
+            value={confirmPassword}
+            required
+            onChange={(event) => setConfirmPassword(event.target.value)}
+          />
+        </label>
+        {!passwordsMatch && <p>Passwords do not match</p>}
       </div>
       <div>
         <input className="btn" type="submit" name="submit" value="Register" />
