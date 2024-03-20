@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+
 //import './LandingPage.css';
 
 // CUSTOM COMPONENTS
@@ -7,11 +9,35 @@ import RegisterForm from '../RegisterForm/RegisterForm';
 
 function LandingPage() {
   const [heading, setHeading] = useState('Dad Shoes USA');
+  const [randomQuote, setRandomQuote] = useState('');
   const history = useHistory();
 
   const onLogin = (event) => {
     history.push('/login');
   };
+
+
+const dadQuote = () => { 
+  axios({
+    method: 'GET',
+    url: '/api/quotes'
+  })
+  .then((response) => {
+    let quoteList=response.data
+    console.log(quoteList);
+    let randQuoteIndex = Math.floor(Math.random() * quoteList.length);
+    let randomQuote = quoteList[randQuoteIndex];
+    setRandomQuote(randomQuote);
+    console.log('Random Quote:', randomQuote);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+};
+
+useEffect(() => {
+  dadQuote();
+}, []); 
 
   return (
     <div className="container">
@@ -21,28 +47,11 @@ function LandingPage() {
       <div className="grid">
         <div className="grid-col grid-col_8">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            id felis metus. Vestibulum et pulvinar tortor. Morbi pharetra lacus
-            ut ex molestie blandit. Etiam et turpis sit amet risus mollis
-            interdum. Suspendisse et justo vitae metus bibendum fringilla sed
-            sed justo. Aliquam sollicitudin dapibus lectus, vitae consequat odio
-            elementum eget. Praesent efficitur eros vitae nunc interdum, eu
-            interdum justo facilisis. Sed pulvinar nulla ac dignissim efficitur.
-            Quisque eget eros metus. Vestibulum bibendum fringilla nibh a
-            luctus. Duis a sapien metus.
+            {randomQuote.quote}
           </p>
 
         </div>
-        <div className="grid-col grid-col_4">
-          <RegisterForm />
-
-          <center>
-            <h4>Already a Member?</h4>
-            <button className="btn btn_sizeSm" onClick={onLogin}>
-              Login
-            </button>
-          </center>
-        </div>
+        
       </div>
     </div>
   );
