@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 function RegisterForm() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [address, setAddress] = useState('');
+  const [streetAddress, setStreetAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [zipCode, setZipCode] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState(''); 
@@ -22,6 +25,10 @@ function RegisterForm() {
           email: email,
           firstName: firstName,
           lastName: lastName,
+          streetAddress: streetAddress,
+          city: city,
+          state: state,
+          zipCode: zipCode,
           password: password,
         },
       });
@@ -63,14 +70,50 @@ function RegisterForm() {
         </label>
       </div>
       <div>
-        <label htmlFor="address">
-          Address:
+        <label htmlFor="streetAddress">
+          Street Address:
           <input
             type="text"
-            name="address"
-            value={address}
+            name="streetAddress"
+            value={streetAddress}
             required
-            onChange={(event) => setAddress(event.target.value)}
+            onChange={(event) => setStreetAddress(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="city">
+          City:
+          <input
+            type="text"
+            name="city"
+            value={city}
+            required
+            onChange={(event) => setCity(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="state">
+          State:
+          <input
+            type="text"
+            name="state"
+            value={state}
+            required
+            onChange={(event) => setState(event.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label htmlFor="zipCode">
+          Zip Code:
+          <input
+            type="text"
+            name="zipCode"
+            value={zipCode}
+            required
+            onChange={(event) => setZipCode(event.target.value)}
           />
         </label>
       </div>

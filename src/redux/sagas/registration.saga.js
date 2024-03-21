@@ -1,7 +1,10 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
-
+import { useHistory } from 'react-router-dom';
 // worker Saga: will be fired on "REGISTER" actions
+
+const history = useHistory();
+
 function* registerUser(action) {
   try {
     // clear any existing error on the registration page
@@ -24,6 +27,8 @@ function* registerUser(action) {
 
 function* registrationSaga() {
   yield takeLatest('REGISTER', registerUser);
+  
+
 }
 
 export default registrationSaga;
