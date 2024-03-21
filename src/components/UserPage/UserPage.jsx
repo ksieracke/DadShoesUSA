@@ -17,7 +17,7 @@ function UserPage() {
   function changeUpdating(){
     setUpdating(!updating);
   }
-  
+
   async function updateUserInfo() {
     try {
       const updatedUserInfo = {
@@ -29,6 +29,7 @@ function UserPage() {
       };
 
       await axios.put('/api/user/update', updatedUserInfo);
+      window.location.reload();
 
       changeUpdating();
     } catch (error) {
