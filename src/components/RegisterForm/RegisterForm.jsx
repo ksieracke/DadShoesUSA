@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 function RegisterForm() {
   const [firstName, setFirstName] = useState('');
@@ -31,11 +32,23 @@ function RegisterForm() {
           zipCode: zipCode,
           password: password,
         },
-      });
+      })
     } else {
       setPasswordsMatch(false);
     }
   }; // end registerUser
+  useEffect(() => {
+    if (errors.registrationSuccess) {
+      // If registration was successful, dispatch the LOGIN action
+      dispatch({
+        type: 'LOGIN',
+        payload: {
+          username: email,
+          password: password,
+        },
+      });
+    }
+  }, [errors.registrationSuccess]);
 
   return (
     <form className="formPanel" onSubmit={registerUser}>

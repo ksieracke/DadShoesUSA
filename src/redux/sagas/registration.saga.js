@@ -1,9 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 // worker Saga: will be fired on "REGISTER" actions
 
-const history = useHistory();
 
 function* registerUser(action) {
   try {
@@ -12,13 +10,19 @@ function* registerUser(action) {
 
     // passes the username and password from the payload to the server
     yield axios.post('/api/user/register', action.payload);
-
+    console.log(action.payload);
     // automatically log a user in after registration
-    yield put({ type: 'LOGIN', payload: action.payload });
+
+    const username=action.payload.email;
+    const password=action.payload.password;
+    const loginData={username, password}
+
+    yield put({ type: 'LOGIN', payload: loginData });
 
     // set to 'login' mode so they see the login screen
     // after registration or after they log out
-    yield put({ type: 'SET_TO_LOGIN_MODE' });
+
+    yield put({type: 'REGISTRATION_SUCCESSFUL'});
   } catch (error) {
     console.log('Error with user registration:', error);
     yield put({ type: 'REGISTRATION_FAILED' });
@@ -27,7 +31,6 @@ function* registerUser(action) {
 
 function* registrationSaga() {
   yield takeLatest('REGISTER', registerUser);
-  
 
 }
 
