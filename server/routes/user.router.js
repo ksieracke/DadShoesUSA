@@ -14,6 +14,21 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   res.send(req.user);
 });
 
+router.put('/update', rejectUnauthenticated, (req, res) => {
+  const userId = req.user.id; // Assuming you have userId available in the request
+  console.log('!!!!!!!', userId);
+  const { email, streetAddress, city, state, zipCode } = req.body;
+
+  const queryText = `UPDATE "user" SET email=$1, street_address=$2, city=$3, state=$4, zip_code=$5 WHERE id=$6`;
+  pool
+    .query(queryText, [email, streetAddress, city, state, zipCode, userId])
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      console.log('Error updating user information:', err);
+      res.sendStatus(500);
+    });
+});
+
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
