@@ -16,7 +16,6 @@ function* loginUser(action) {
     // the config includes credentials which
     // allow the server session to recognize the user
 
-    console.log('!!!!!!!!!!!!!!', action.payload);
     yield axios.post('/api/user/login',action.payload, config);
 
     // after the user has logged in

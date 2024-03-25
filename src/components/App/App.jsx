@@ -21,6 +21,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import PurchasePage from '../PurchasePage/PurchasePage';
 import GalleryPage from '../GalleryPage/GalleryPage';
+import UploadPage from '../UploadPage/UploadPage';
 import './App.css';
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
             }
           </Route>
 
+
           <Route
             exact
             path="/home"
@@ -119,6 +121,11 @@ function App() {
           <Route exact
           path="/gallery">
             <GalleryPage />
+          </Route>
+          
+          <Route exact
+          path="/upload">
+            <UploadPage />
           </Route>
 
           {/* If none of the other routes matched, we will show a 404. */}
