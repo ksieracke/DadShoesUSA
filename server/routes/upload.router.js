@@ -12,10 +12,10 @@ const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
 
 const s3 = new aws.S3({
-    accessKeyId: 'AKIA3FLD6K5UB7ZQGOMT',
-    
+    'accessKeyId': accessKeyId,
+    'secretAccessKey': secretAccessKey,
 });
-//TODO add keys to ignore file
+
 
 const upload=multer();
 
