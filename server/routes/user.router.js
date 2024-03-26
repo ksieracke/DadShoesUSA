@@ -15,14 +15,10 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 });
 
 router.put('/update', rejectUnauthenticated, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user.id; // Assuming you have userId available in the request
   const { email, streetAddress, city, state, zipCode } = req.body;
 
-  const queryText = `UPDATE "user" SET email=$1,
-  street_address=$2,
-  city=$3,
-  state=$4,
-  zip_code=$5 WHERE id=$6`;
+  const queryText = `UPDATE "user" SET email=$1, street_address=$2, city=$3, state=$4, zip_code=$5 WHERE id=$6`;
   pool
     .query(queryText, [email, streetAddress, city, state, zipCode, userId])
     .then(() => res.sendStatus(200))

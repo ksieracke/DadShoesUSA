@@ -99,7 +99,6 @@ function App() {
             }
           </Route>
 
-
           <Route
             exact
             path="/home"
@@ -122,11 +121,11 @@ function App() {
           path="/gallery">
             <GalleryPage />
           </Route>
-          
-          <Route exact
+
+          <ProtectedRoute exact
           path="/upload">
             <UploadPage />
-          </Route>
+          </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
