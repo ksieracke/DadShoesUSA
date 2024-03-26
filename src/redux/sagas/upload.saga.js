@@ -3,14 +3,14 @@ import axios from 'axios';
 
 function* uploadToDb(action) {
     try {
-      // passes the username and password from the payload to the server
+      console.log('in upload saga');
       console.log(action.payload);
       yield axios.post('/api/upload', action.payload);
       
       
     } catch (error) {
-      console.log('Error with user registration:', error);
-      yield put({ type: 'REGISTRATION_FAILED' });
+      console.log('Error with upload:', error);
+      yield put({ type: 'UPLOAD_FAILED' });
     }
   }
   

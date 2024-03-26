@@ -11,6 +11,7 @@ const passport = require('./strategies/user.strategy');
 // Route Includes
 const userRouter = require('./routes/user.router');
 const quoteRouter = require('./routes/quotes.router');
+const uploadRouter = require('./routes/upload.router');
 
 // Express Middleware
 app.use(express.json());
@@ -26,7 +27,8 @@ app.use(passport.session());
 
 // Routes
 app.use('/api/user', userRouter);
-app.use('/api/quotes', quoteRouter)
+app.use('/api/quotes', quoteRouter);
+app.use('/api/upload', uploadRouter);
 
 // Listen Server & Port
 app.listen(PORT, () => {

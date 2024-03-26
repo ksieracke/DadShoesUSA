@@ -10,7 +10,6 @@ function UploadPage() {
     const errors = useSelector((store) => store.errors);
 
     const handleFileChange = (event) => {
-        console.log('aaaaaa');
         setSelectedFile(event.target.files[0]);
     };
 
