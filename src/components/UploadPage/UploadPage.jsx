@@ -10,12 +10,13 @@ function UploadPage() {
     const errors = useSelector((store) => store.errors);
 
     const handleFileChange = (event) => {
+        console.log('aaaaaa');
         setSelectedFile(event.target.files[0]);
     };
 
     const handleCaptionChange = (event) => {
         setCaption(event.target.value);
-        console.log(selectedFile);
+        console.log(caption);
     };
 
     const handleSubmit = async (event) => {
@@ -42,7 +43,7 @@ function UploadPage() {
         <>
         <p>UPLOAD PAGE</p>
         <form onSubmit={handleSubmit}>
-            <input type="file" onChange={handleFileChange} />
+            <input type="file" accept="image/*" onChange={handleFileChange} /> 
             <br />
             <input
             type="text"
