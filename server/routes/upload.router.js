@@ -40,42 +40,58 @@ router.post('/image', async (req, res)=>{
 });
 
 
-//const upload=multer();
-
 // POST route to handle image upload
 router.post('/', (req, res) => {
-
     console.log('in router.post');
     console.log('req.body', req.body);
     console.log('req.file', req.file);
     try{
-        // const { originalname, mimetype, buffer } = req.file;
-        // const {caption, userID} = req.body;
-        
+          // Insert data into the picture_gallery table
+          const queryText = `INSERT INTO picture_gallery (url, caption, customer_id) VALUES ($1, $2, $3) RETURNING *`;
+          const values = [req.body.file, req.body.caption, req.body.id];
 
-        
+          pool.query(queryText, values)
+            .then(result => {
+              // Return the inserted row as the response
+              res.status(201).json(result.rows[0]);
+            })
+            .catch(error => {
+              console.error('Error inserting image:', error);
+              res.status(500).json({ message: 'Error inserting image' });
+            });
+        }
+        catch(error){
+            console.error('Error handling image upload:', error);
+            res.status(500).json({ message: 'Error handling image upload' });
+            }
+});
 
-    
+router.get('/', async (req, res) => {
+  try {
+      const params = {
+          Bucket: 'dad-shoes-usa-images',
+          Prefix: 'approved-Images/', // Specify the folder path here
+      };
 
-  // Insert data into the picture_gallery table
-  const queryText = `INSERT INTO picture_gallery (url, caption, customer_id) VALUES ($1, $2, $3) RETURNING *`;
-  const values = [req.body.file, req.body.caption, req.body.id];
+      s3Client.listObjectsV2(params, (err, data) => {
+          if (err) {
+              console.error('Error listing objects:', err);
+              return res.sendStatus(500);
+          }
 
-  pool.query(queryText, values)
-    .then(result => {
-      // Return the inserted row as the response
-      res.status(201).json(result.rows[0]);
-    })
-    .catch(error => {
-      console.error('Error inserting image:', error);
-      res.status(500).json({ message: 'Error inserting image' });
-    });
-}
-catch(error){
-    console.error('Error handling image upload:', error);
-    res.status(500).json({ message: 'Error handling image upload' });
+          const images = data.Contents.map(obj => {
+              return {
+                  Key: obj.Key,
+                  Url: s3Client.getSignedUrl('getObject', { Bucket: params.Bucket, Key: obj.Key }),
+              };
+          });
 
-}
+          res.json(images);
+      });
+  } catch (error) {
+      console.error('Error retrieving images:', error);
+      res.sendStatus(500);
+  }
 });
 
 module.exports = router;
