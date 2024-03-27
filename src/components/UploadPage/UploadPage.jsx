@@ -13,6 +13,11 @@ function UploadPage() {
         setSelectedFile(event.target.files[0]);
     };
 
+    const clearForm = () => {
+        setSelectedFile(undefined);
+        setCaption('');
+    }
+
     const handleCaptionChange = (event) => {
         setCaption(event.target.value);
         console.log(selectedFile);
@@ -43,6 +48,7 @@ function UploadPage() {
             formData.append('image', selectedFile);
             axios.post(`/api/upload/image?imageName=${fileName}`, formData).then(response =>{
                 console.log("SUCCESSFUL UPLOAD TO S3");
+                clearForm();
             }).catch(error =>{
                 console.log('error', error);
                 alert('something went wrong with s3 upload')
