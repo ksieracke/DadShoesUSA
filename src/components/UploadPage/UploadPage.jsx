@@ -15,7 +15,7 @@ function UploadPage() {
 
     const handleCaptionChange = (event) => {
         setCaption(event.target.value);
-        console.log(caption);
+        console.log(selectedFile);
     };
 
     const handleSubmit = async (event) => {
@@ -35,6 +35,18 @@ function UploadPage() {
                 },
             })
 
+            // const fileToUpload=event.target.files[0];
+            // setSelectedFile(fileToUpload);
+
+            const fileName=encodeURIComponent(selectedFile.name);
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+            axios.post(`/api/upload/image?imageName=${fileName}`, formData).then(response =>{
+                console.log("SUCCESSFUL UPLOAD TO S3");
+            }).catch(error =>{
+                console.log('error', error);
+                alert('something went wrong with s3 upload')
+            })
         }
     };
 
@@ -42,7 +54,7 @@ function UploadPage() {
         <>
         <p>UPLOAD PAGE</p>
         <form onSubmit={handleSubmit}>
-            <input type="file" accept="image/*" onChange={handleFileChange} /> 
+            <input type="file" onChange={handleFileChange} />
             <br />
             <input
             type="text"

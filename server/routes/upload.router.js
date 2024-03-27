@@ -11,9 +11,32 @@ const userStrategy = require('../strategies/user.strategy');
 
 const router = express.Router();
 
-const s3 = new aws.S3({
-    'accessKeyId': process.env.accessKeyId,
-    'secretAccessKey': process.env.secretAccessKey,
+const s3Client = new aws.S3({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION,
+});
+
+router.post('/image', async (req, res)=>{
+  try{
+    const { imageName } = req.query;
+    const  imageData  = req.files.image.data;
+
+    const params = {
+      Bucket: 'dad-shoes-usa-images',
+      Key: `${imageName}`,
+      Body: imageData,
+      //ACL: 'public-read',
+  };
+
+    const uploadedImage=await s3Client.upload(params).promise();
+    console.log(uploadedImage.Location); //URL file can be accessed at
+    res.sendStatus(201);
+  }catch (error){
+    console.log(error);
+    res.sendStatus(500);
+
+  }
 });
 
 
@@ -21,6 +44,7 @@ const s3 = new aws.S3({
 
 // POST route to handle image upload
 router.post('/', (req, res) => {
+
     console.log('in router.post');
     console.log('req.body', req.body);
     console.log('req.file', req.file);
@@ -29,15 +53,8 @@ router.post('/', (req, res) => {
         // const {caption, userID} = req.body;
         
 
-        // const params = {
-        //     Bucket: 'dad-shoes-usa-images',
-        //     Key: `${Date.now()}_${originalname}`,
-        //     Body: buffer,
-        //     ContentType: mimetype,
-        //     ACL: 'public-read',
-        // };
+        
 
-        //const uploadedImage=await s3.upload(params).promise();
     
 
   // Insert data into the picture_gallery table
