@@ -24,7 +24,7 @@ router.post('/image', async (req, res)=>{
 
     const params = {
       Bucket: 'dad-shoes-usa-images',
-      Key: `${imageName}`,
+      Key: `pending-Images/${imageName}`,
       Body: imageData,
       //ACL: 'public-read',
   };
@@ -71,6 +71,44 @@ router.get('/', async (req, res) => {
       const params = {
           Bucket: 'dad-shoes-usa-images',
           Prefix: 'approved-Images/', // Specify the folder path here
+      };
+
+      s3Client.listObjectsV2(params, (err, data) => {
+          if (err) {
+              console.error('Error listing objects:', err);
+              return res.sendStatus(500);
+          }
+
+          const images = data.Contents.map(obj => {
+              return {
+                  Key: obj.Key,
+                  Url: s3Client.getSignedUrl('getObject', { Bucket: params.Bucket, Key: obj.Key }),
+              };
+          });
+
+          res.json(images);
+      });
+  } catch (error) {
+      console.error('Error retrieving images:', error);
+      res.sendStatus(500);
+  }
+});
+
+
+
+// !!!!!!!!!!!!!!!!!!TODO NEXT!!!!!!!!!!!!!
+// create new s3 bucket folder for pending images
+// change post route to go to new folder
+// write put route to move from pending to approved
+// write delete route
+// figure out how to handle captions for pending vs approved
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+router.get('/admin', async (req, res) => {
+  try {
+      const params = {
+          Bucket: 'dad-shoes-usa-images',
+          Prefix: 'pending-Images', // Specify the folder path here
       };
 
       s3Client.listObjectsV2(params, (err, data) => {
