@@ -12,8 +12,10 @@ function GalleryPage(){
 
     const getImages = () => {
         axios.get('/api/upload').then(response => {
+            console.log(response.data);
             setImageList(response.data);
             console.log(imageList);
+            //setImageList(imageList.slice(1))
             }).catch(error => {
                 console.log('error', error);
                 alert('Something went wrong');
@@ -34,16 +36,19 @@ function GalleryPage(){
         getCaptions();
     }, []);
 
+    useEffect(() => {
+        console.log("imageList updated:", imageList);
+    }, [imageList]);
     return(
         <div>
             <p>THIS IS THE GALLERY PAGE</p>
             <Link to="/upload">
                 <button>Upload</button>
             </Link>
-            {imageList.map((image, index) => (
+            {imageList.slice(1).map((image, index) => (
                 <div key={index}>
-                    <img src={image.Url} alt={`Image ${index+1}`} />
-                    <p>{captionList[index-1]}</p>
+                    <img src={image.Url} alt={`Image ${index}`} />
+                    <p>{captionList[index]}</p>
                 </div>
             ))}
             {/* Add upload button if needed */}
