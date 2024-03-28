@@ -116,7 +116,7 @@ router.get('/captions', async (req, res) => {
 // !!!!!!!!!!!!!!!!!!TODO NEXT!!!!!!!!!!!!!
 //
 // write put route to move from pending to approved
-// write delete route
+// 
 // figure out how to handle captions for pending vs approved
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -170,6 +170,26 @@ router.delete('/image/:imageName', async (req, res) => {
       });
   } catch (error) {
       console.error('Error deleting image:', error);
+      res.sendStatus(500);
+  }
+});
+
+// Route to approve an image
+router.put('/approve/:imageName', async (req, res) => {
+  try {
+      const { imageName } = req.params;
+
+      const copyParams = {
+          Bucket: 'dad-shoes-usa-images',
+          CopySource: `dad-shoes-usa-images/${imageName}`,
+          Key: `approved-Images/${imageName.substring(imageName.indexOf('/'))}`,
+      };
+
+      await s3Client.copyObject(copyParams).promise();
+
+      res.sendStatus(200);
+  } catch (error) {
+      console.error('Error approving image:', error);
       res.sendStatus(500);
   }
 });
