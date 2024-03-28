@@ -50,9 +50,7 @@ function GalleryPage(){
                     <img src={image.Url} alt={`Image ${index}`} />
                     <p>{captionList[index]}</p>
                 </div>
-            ))}
-            {/* Add upload button if needed */}
-            
+            ))}            
         </div>
     )
 };

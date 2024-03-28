@@ -22,6 +22,7 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import PurchasePage from '../PurchasePage/PurchasePage';
 import GalleryPage from '../GalleryPage/GalleryPage';
 import UploadPage from '../UploadPage/UploadPage';
+import AdminUploadPage from '../AdminUploadPage/AdminUploadPage';
 import './App.css';
 
 function App() {
@@ -126,6 +127,10 @@ function App() {
           path="/upload">
             <UploadPage />
           </ProtectedRoute>
+
+          <ProtectedRoute exact
+          path="/upload/admin">
+            {user.user_type === 'Admin' ? <AdminUploadPage /> : <Redirect to="/" />} </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
