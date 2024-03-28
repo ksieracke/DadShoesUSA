@@ -94,4 +94,21 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/captions', async (req, res) => {
+  try {
+      // Query the database to fetch captions
+      const queryText = 'SELECT * FROM picture_gallery';
+      const result = await pool.query(queryText);
+      console.log("!!!!!!!!!",result);
+      // Extract captions from the query result
+      const captions = result.rows.map(row => row.caption);
+      console.log(captions);
+      // Send the captions as the response
+      res.json(captions);
+  } catch (error) {
+      console.error('Error retrieving captions:', error);
+      res.sendStatus(500);
+  }
+});
+
 module.exports = router;

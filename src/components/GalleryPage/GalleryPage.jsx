@@ -13,14 +13,25 @@ function GalleryPage(){
     const getImages = () => {
         axios.get('/api/upload').then(response => {
             setImageList(response.data);
+            console.log(imageList);
             }).catch(error => {
                 console.log('error', error);
                 alert('Something went wrong');
         });
     }
+
+    const getCaptions = () => {
+        axios.get('/api/upload/captions').then(response => {
+            setCaptionList(response.data);
+        }).catch(error => {
+            console.log('error', error);
+            alert('Something went wrong');
+        });
+    }
     
     useEffect(() => {
         getImages();
+        getCaptions();
     }, []);
 
     return(
@@ -31,7 +42,8 @@ function GalleryPage(){
             </Link>
             {imageList.map((image, index) => (
                 <div key={index}>
-                    <img src={image.Url} alt={`Image ${index}`} />
+                    <img src={image.Url} alt={`Image ${index+1}`} />
+                    <p>{captionList[index-1]}</p>
                 </div>
             ))}
             {/* Add upload button if needed */}
