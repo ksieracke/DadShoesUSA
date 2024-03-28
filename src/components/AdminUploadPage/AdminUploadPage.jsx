@@ -10,9 +10,9 @@ function AdminUploadPage(){
 
     const getPendingImages = () => {
         axios.get('/api/upload/admin').then(response => {
-            console.log(response.data);
+            console.log("11111",response.data);
             setPendingImageList(response.data);
-            console.log(pendingImageList);
+            console.log("22222",pendingImageList);
             }).catch(error => {
                 console.log('error', error);
                 alert('Something went wrong');
@@ -27,23 +27,40 @@ function AdminUploadPage(){
             alert('Something went wrong');
         });
     }
+
+    const approveImage = () =>{
+
+    };
+
+    const deleteImage = (imageName) => {
+        console.log(imageName);
+        axios.delete(`/api/upload/image/${encodeURIComponent(imageName)}`)
+            .then(() => {
+                console.log('Image deleted successfully');
+                // Refresh pending images after deletion
+                getPendingImages();
+            })
+            .catch(error => {
+                console.error('Error deleting image:', error);
+                alert('Something went wrong');
+            });
+    };
     
     useEffect(() => {
         getPendingImages();
         // getPendingCaptions();
     }, []);
 
-    useEffect(() => {
-        console.log("pendingImageList updated:", pendingImageList);
-    }, [pendingImageList]);
 
     return(
         <div>
             <p>Admin Upload Page!!!</p>
-            {pendingImageList.map((image, index) => (
-                <div key={index}>
+            {pendingImageList.slice(1).map((image, index) => (
+                <div key={image.Key}>
                     <img src={image.Url} alt={`Image ${index}`} />
                     {/* <p>{pendingCaptionList[index]}</p> */}
+                    <button onClick={approveImage}>Approve</button>
+                    <button onClick={() => deleteImage(image.Key)}>Delete</button>
                 </div>
                 ))}  
         </div>

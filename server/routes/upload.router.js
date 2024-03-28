@@ -1,4 +1,3 @@
-
 const express = require('express');
 //const multer = require('multer');
 const aws = require('aws-sdk');
@@ -17,6 +16,7 @@ const s3Client = new aws.S3({
     region: process.env.AWS_REGION,
 });
 
+//post route to handle upload image upload to S3 bucket pending-Images folder
 router.post('/image', async (req, res)=>{
   try{
     const { imageName } = req.query;
@@ -40,7 +40,7 @@ router.post('/image', async (req, res)=>{
 });
 
 
-// POST route to handle image upload
+// POST route to handle image name & caption upload to DB
 router.post('/', (req, res) => {
     console.log('in router.post');
     console.log('req.body', req.body);
@@ -66,6 +66,7 @@ router.post('/', (req, res) => {
             }
 });
 
+//get route for gallery page to get approved images
 router.get('/', async (req, res) => {
   try {
       const params = {
@@ -94,44 +95,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-
-
-// !!!!!!!!!!!!!!!!!!TODO NEXT!!!!!!!!!!!!!
-// create new s3 bucket folder for pending images
-// change post route to go to new folder
-// write put route to move from pending to approved
-// write delete route
-// figure out how to handle captions for pending vs approved
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-router.get('/admin', async (req, res) => {
-  try {
-      const params = {
-          Bucket: 'dad-shoes-usa-images',
-          Prefix: 'pending-Images', // Specify the folder path here
-      };
-
-      s3Client.listObjectsV2(params, (err, data) => {
-          if (err) {
-              console.error('Error listing objects:', err);
-              return res.sendStatus(500);
-          }
-
-          const images = data.Contents.map(obj => {
-              return {
-                  Key: obj.Key,
-                  Url: s3Client.getSignedUrl('getObject', { Bucket: params.Bucket, Key: obj.Key }),
-              };
-          });
-
-          res.json(images);
-      });
-  } catch (error) {
-      console.error('Error retrieving images:', error);
-      res.sendStatus(500);
-  }
-});
-
+//get route to handle captions on gallery page pulled from DB
 router.get('/captions', async (req, res) => {
   try {
       // Query the database to fetch captions
@@ -148,5 +112,67 @@ router.get('/captions', async (req, res) => {
       res.sendStatus(500);
   }
 });
+
+// !!!!!!!!!!!!!!!!!!TODO NEXT!!!!!!!!!!!!!
+//
+// write put route to move from pending to approved
+// write delete route
+// figure out how to handle captions for pending vs approved
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+//get route for upload/admin page to show images still pending approval
+router.get('/admin', async (req, res) => {
+  try {
+    const params = {
+      Bucket: 'dad-shoes-usa-images',
+      Prefix: 'pending-Images',
+    };
+    
+    s3Client.listObjectsV2(params, (err, data) => {
+      if (err) {
+        console.error('Error listing objects:', err);
+        return res.sendStatus(500);
+      }
+      const images = data.Contents.map(obj => {
+        return {
+          Key: obj.Key,
+          Url: s3Client.getSignedUrl('getObject', { Bucket: params.Bucket, Key: obj.Key }),
+        };
+      });
+      
+      res.json(images);
+    });
+  } catch (error) {
+    console.error('Error retrieving images:', error);
+    res.sendStatus(500);
+  }
+});
+
+router.delete('/image/:imageName', async (req, res) => {
+  console.log("((((((((()))))))))",req.params);
+  try {
+      const { imageName } = req.params;
+      console.log('Deleting image:', imageName);
+
+      const params = {
+          Bucket: 'dad-shoes-usa-images',
+          Key: `${imageName}`,
+      };
+
+      s3Client.deleteObject(params, (err, data) => {
+          if (err) {
+              console.error('Error deleting image:', err);
+              return res.sendStatus(500);
+          }
+
+          console.log('Image deleted successfully');
+          res.sendStatus(200);
+      });
+  } catch (error) {
+      console.error('Error deleting image:', error);
+      res.sendStatus(500);
+  }
+});
+
 
 module.exports = router;
