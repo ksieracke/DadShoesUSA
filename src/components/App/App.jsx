@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+
 import {
   HashRouter as Router,
   Redirect,
@@ -23,6 +24,7 @@ import PurchasePage from '../PurchasePage/PurchasePage';
 import GalleryPage from '../GalleryPage/GalleryPage';
 import UploadPage from '../UploadPage/UploadPage';
 import AdminUploadPage from '../AdminUploadPage/AdminUploadPage';
+import CheckoutPage from '../CheckoutPage/CheckoutPage';
 import './App.css';
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
   }, [dispatch]);
+
+
 
 
   return (
@@ -130,7 +134,14 @@ function App() {
 
           <ProtectedRoute exact
           path="/upload/admin">
-            {user.user_type === 'Admin' ? <AdminUploadPage /> : <Redirect to="/" />} </ProtectedRoute>
+            {user.user_type === 'Admin' ? <AdminUploadPage /> : <Redirect to="/" />} 
+          </ProtectedRoute>
+
+          <Route exact
+          path="/checkout">
+            <CheckoutPage />
+          </Route>
+
           <Route>
             <h1>404</h1>
           </Route>

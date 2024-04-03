@@ -39,7 +39,6 @@ router.post('/image', async (req, res)=>{
   }
 });
 
-
 // POST route to handle image name & caption upload to DB
 router.post('/', (req, res) => {
     console.log('in router.post');
@@ -114,8 +113,6 @@ router.get('/captions', async (req, res) => {
 });
 
 // !!!!!!!!!!!!!!!!!!TODO NEXT!!!!!!!!!!!!!
-//
-// write put route to move from pending to approved
 // 
 // figure out how to handle captions for pending vs approved
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -165,8 +162,20 @@ router.delete('/image/:imageName', async (req, res) => {
               return res.sendStatus(500);
           }
 
-          console.log('Image deleted successfully');
+          console.log('Image deleted successfully from s3');
           res.sendStatus(200);
+          //TODO write pool.query to delete caption from DB
+          const imageToDelete=imageName.substring(imageName.indexOf("/")+1);
+          const queryText=`DELETE FROM picture_gallery WHERE url = $1`
+          pool.query(queryText, [imageToDelete])
+          .then(result => {
+            // Return the inserted row as the response
+            res.status(201).json(result.rows[0]);
+          })
+          .catch(error => {
+            console.error('Error deleting image from DB:', error);
+            res.status(500).json({ message: 'Error deleting image from db' });
+          });
       });
   } catch (error) {
       console.error('Error deleting image:', error);
@@ -193,6 +202,5 @@ router.put('/approve/:imageName', async (req, res) => {
       res.sendStatus(500);
   }
 });
-
 
 module.exports = router;
