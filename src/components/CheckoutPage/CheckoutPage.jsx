@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 function CheckoutPage() {
+    const dispatch = useDispatch();
     const user = useSelector((store) => store.user);
     const storeSize=useSelector((store) => store.size);
+    const shipName=useSelector((store)=> store.shipping.shippingName)
+    const shipStreet=useSelector((store)=> store.shipping.shippingStreetAddress)
 
 
     // State variables for form fields
@@ -15,13 +18,51 @@ function CheckoutPage() {
     const [shippingState, setShippingState] = useState(user ? user.state : "");
     const [shippingZip, setShippingZip] = useState(user ? user.zip_code : "");
 
+
+
     // Event handlers for form field changes
-    const handleNameChange = (e) => setShippingName(e.target.value);
-    const handleEmailChange = (e) => setCustomerEmail(e.target.value);
-    const handleAddressChange = (e) => setShippingStreetAddress(e.target.value);
-    const handleCityChange = (e) => setShippingCity(e.target.value);
-    const handleStateChange = (e) => setShippingState(e.target.value);
-    const handleZipChange = (e) => setShippingZip(e.target.value);
+    const handleNameChange = (e) => {
+        setShippingName(e.target.value);
+        dispatch({
+            type: 'SET_SHIPPING_NAME',
+            payload: e.target.value,
+        });
+    };
+    const handleEmailChange = (e) => {
+        setCustomerEmail(e.target.value);
+        dispatch({
+            type: 'SET_CUSTOMER_EMAIL',
+            payload: e.target.value,
+        });
+    };
+    const handleAddressChange = (e) => {
+        setShippingStreetAddress(e.target.value);
+        dispatch({
+            type: 'SET_SHIPPING_STREET_ADDRESS',
+            payload: e.target.value,
+        });
+    };
+    const handleCityChange = (e) => {
+        setShippingCity(e.target.value);
+        dispatch({
+            type: 'SET_SHIPPING_CITY',
+            payload: e.target.value,
+        });
+    };
+    const handleStateChange = (e) => {
+        setShippingState(e.target.value);
+        dispatch({
+            type: 'SET_SHIPPING_STATE',
+            payload: e.target.value,
+        });
+    };
+    const handleZipChange = (e) => {
+        setShippingZip(e.target.value);
+        dispatch({
+            type: 'SET_SHIPPING_ZIP_CODE',
+            payload: e.target.value,
+        });
+    };
 
     useEffect(() => {
         console.log(storeSize);
@@ -30,40 +71,45 @@ function CheckoutPage() {
 
     return (
         <>
-            <p>Checkout</p>
+            <h1>Checkout</h1>
+            <p>Purchasing a size {parseFloat(storeSize)} pair of Dad Shoes</p>
+            <p>Please enter/verify the shipping address below</p>
+
+
 
             <h3>Shipping</h3>
 
             <form>
                 <label>
-                    Name:
-                    <input type="text" value={shippingName} onChange={handleNameChange} />
-                </label>
-                <br />
-                <label>
-                    Email:
+                    Purchaser Email:
                     <input type="email" value={customerEmail} onChange={handleEmailChange} />
                 </label>
                 <br />
                 <label>
-                    Street Address:
+                    Dad's Name:
+                    <input type="text" value={shippingName} onChange={handleNameChange} />
+                </label>
+                <br />
+                <label>
+                    Dad's Street Address:
                     <input type="text" value={shippingStreetAddress} onChange={handleAddressChange} />
                 </label>
                 <br />
                 <label>
-                    City:
+                    Dad's City:
                     <input type="text" value={shippingCity} onChange={handleCityChange} />
                 </label>
                 <br />
                 <label>
-                    State:
+                    Dad's State:
                     <input type="text" value={shippingState} onChange={handleStateChange} />
                 </label>
                 <br />
                 <label>
-                    Zip Code:
+                    Dad's Zip Code:
                     <input type="text" value={shippingZip} onChange={handleZipChange} />
                 </label>
+                
             </form>
         </>
     );
