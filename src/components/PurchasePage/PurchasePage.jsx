@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function PurchasePage(){
     const dispatch = useDispatch();
-    const storeSize=useSelector((store) => store.size);
 
     const [size, setSize] = useState('');
 
@@ -28,7 +27,7 @@ function PurchasePage(){
         setSize(event.target.value);
         dispatch({
             type: 'SET_SIZE',
-            payload: size,
+            payload: event.target.value,
         })
 
     };

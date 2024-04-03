@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function CheckoutPage() {
     const user = useSelector((store) => store.user);
+    const storeSize=useSelector((store) => store.size);
+
 
     // State variables for form fields
     const [shippingName, setShippingName] = useState(user ? `${user.first_name} ${user.last_name}` : "");
@@ -19,6 +22,11 @@ function CheckoutPage() {
     const handleCityChange = (e) => setShippingCity(e.target.value);
     const handleStateChange = (e) => setShippingState(e.target.value);
     const handleZipChange = (e) => setShippingZip(e.target.value);
+
+    useEffect(() => {
+        console.log(storeSize);
+        
+    }, []);
 
     return (
         <>
