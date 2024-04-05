@@ -183,6 +183,44 @@ router.delete('/image/:imageName', async (req, res) => {
   }
 });
 
+router.delete('/image/approved/:imageName', async (req, res) => {
+  console.log("((((((((()))))))))",req.params);
+  try {
+      const { imageName } = req.params;
+      console.log('Deleting image:', imageName);
+
+      const params = {
+          Bucket: 'dad-shoes-usa-images',
+          Key: `${imageName}`,
+      };
+
+      s3Client.deleteObject(params, (err, data) => {
+          if (err) {
+              console.error('Error deleting image:', err);
+              return res.sendStatus(500);
+          }
+
+          console.log('Image deleted successfully from s3');
+          res.sendStatus(200);
+          //TODO write pool.query to delete caption from DB
+          // const imageToDelete=imageName.substring(imageName.indexOf("/")+1);
+          // const queryText=`DELETE FROM picture_gallery WHERE url = $1`
+          // pool.query(queryText, [imageToDelete])
+          // .then(result => {
+          //   // Return the inserted row as the response
+          //   res.status(201).json(result.rows[0]);
+          // })
+          // .catch(error => {
+          //   console.error('Error deleting image from DB:', error);
+          //   res.status(500).json({ message: 'Error deleting image from db' });
+          // });
+      });
+  } catch (error) {
+      console.error('Error deleting image:', error);
+      res.sendStatus(500);
+  }
+});
+
 // Route to approve an image
 router.put('/approve/:imageName', async (req, res) => {
   try {

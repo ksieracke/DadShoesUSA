@@ -26,6 +26,7 @@ import UploadPage from '../UploadPage/UploadPage';
 import AdminUploadPage from '../AdminUploadPage/AdminUploadPage';
 import CheckoutPage from '../CheckoutPage/CheckoutPage';
 import './App.css';
+import ThankYouPage from '../ThankYouPage/ThankYouPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -140,6 +141,11 @@ function App() {
           <Route exact
           path="/checkout">
             <CheckoutPage />
+          </Route>
+
+          <Route exact
+          path="/thankyou">
+            <ThankYouPage />
           </Route>
 
           <Route>

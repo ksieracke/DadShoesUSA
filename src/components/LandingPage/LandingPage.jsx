@@ -46,9 +46,9 @@ useEffect(() => {
 
       <div className="grid">
         <div className="grid-col grid-col_8">
-          <p>
+          <h2>
             {randomQuote.quote}
-          </p>
+          </h2>
 
         </div>
         

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Grid } from '@mui/material';
 
 function GalleryPage(){
 
@@ -41,17 +42,21 @@ function GalleryPage(){
     }, [imageList]);
     return(
         <div>
-            <p>THIS IS THE GALLERY PAGE</p>
-            <Link to="/upload">
-                <button>Upload</button>
-            </Link>
+        <h1>Dad Shoes in Action</h1>
+        <Link to="/upload">
+            <button>Upload</button>
+        </Link>
+        <Grid container spacing={2}>
             {imageList.slice(1).map((image, index) => (
-                <div key={index}>
-                    <img src={image.Url} alt={`Image ${index}`} />
-                    <p>{captionList[index]}</p>
-                </div>
-            ))}            
-        </div>
+                <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+                    <div style={{ textAlign: 'center' }}>
+                        <img src={image.Url} alt={`Image ${index}`} style={{ maxWidth: '100%', height: '200px', objectFit: 'cover' }} />
+                        <p>{captionList[index]}</p>
+                    </div>
+                </Grid>
+            ))}
+        </Grid>
+    </div>
     )
 };
 

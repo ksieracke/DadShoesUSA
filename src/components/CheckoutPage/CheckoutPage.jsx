@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
 
 function CheckoutPage() {
     const dispatch = useDispatch();
-    const user = useSelector((store) => store.user);
-    const storeSize=useSelector((store) => store.size);
-    const shipName=useSelector((store)=> store.shipping.shippingName)
-    const shipStreet=useSelector((store)=> store.shipping.shippingStreetAddress)
+    const storeSize=useSelector((store)=>store.size);
+    const user=useSelector((store)=>store.user);
+    
 
+
+    const [show, setShow] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [ErrorMessage, setErrorMessage] = useState("");
+    const [orderID, setOrderID] = useState(false);
 
     // State variables for form fields
     const [shippingName, setShippingName] = useState(user ? `${user.first_name} ${user.last_name}` : "");
@@ -17,8 +22,6 @@ function CheckoutPage() {
     const [shippingCity, setShippingCity] = useState(user ? user.city : "");
     const [shippingState, setShippingState] = useState(user ? user.state : "");
     const [shippingZip, setShippingZip] = useState(user ? user.zip_code : "");
-
-
 
     // Event handlers for form field changes
     const handleNameChange = (e) => {
@@ -64,13 +67,45 @@ function CheckoutPage() {
         });
     };
 
+    const createOrder = (data, actions) => {
+        return actions.order.create({
+            purchase_units: [
+                {
+                    description: `Dad Shoes Size ${storeSize}`,
+                    amount: {
+                        currency_code: "USD",
+                        value: 65
+                    },
+                },
+            ],
+        }).then((orderID) => {
+                setOrderID(orderID);
+                return orderID;
+            });
+    };
+
+    // check Approval
+    const onApprove = (data, actions) => {
+        return actions.order.capture().then(function (details) {
+            const { payer } = details;
+            setSuccess(true);
+        });
+    };
+    
+    const onError = (data, actions) => {
+        setErrorMessage("An Error occurred with your payment ");
+    };
+
     useEffect(() => {
-        console.log(storeSize);
-        
-    }, []);
+        if (success) {
+            alert("Payment successful!!");
+            console.log('Order successful . Your order id is--', orderID);
+        }
+    },[success]);
+
 
     return (
-        <>
+        <PayPalScriptProvider options={{ "client-id": 'Ada8jcq__0SFyYKCAJRDqsQYIw2jhzuAUdod_inu3msjgn0CSY_Jga5qseOYQOLARI1GU1UbF1AQ3QNu' }}>
             <h1>Checkout</h1>
             <p>Purchasing a size {parseFloat(storeSize)} pair of Dad Shoes</p>
             <p>Please enter/verify the shipping address below</p>
@@ -109,9 +144,13 @@ function CheckoutPage() {
                     Dad's Zip Code:
                     <input type="text" value={shippingZip} onChange={handleZipChange} />
                 </label>
-                
+                <PayPalButtons
+                        style={{ layout: "vertical" }}
+                        createOrder={createOrder}
+                        onApprove={onApprove}
+                    />
             </form>
-        </>
+            </PayPalScriptProvider>
     );
 }
 

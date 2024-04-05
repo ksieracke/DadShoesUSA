@@ -9,15 +9,17 @@ function Nav() {
 
   return (
     <div className="nav">
-      <Link to="/home">
-        <h4 className="nav-title">Home</h4>
-      </Link>
-      <Link to="/purchase">
-        <h4 className="nav-title">Purchase</h4>
-      </Link>
-      <Link to="/gallery">
-        <h4 className="nav-title">Gallery</h4>
-      </Link>
+      <div className="nav-links-left">
+        <Link to="/home">
+          <h4 className="nav-title">Home</h4>
+        </Link>
+        <Link to="/purchase">
+          <h4 className="nav-title">Purchase</h4>
+        </Link>
+        <Link to="/gallery">
+          <h4 className="nav-title">Gallery</h4>
+        </Link>
+      </div>
 
       <div>
         {/* If no user is logged in, show these links */}
@@ -38,8 +40,6 @@ function Nav() {
             <LogOutButton className="navLink" />
           </>
         )}
-
-        
       </div>
     </div>
   );

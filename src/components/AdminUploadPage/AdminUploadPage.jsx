@@ -72,10 +72,24 @@ function AdminUploadPage(){
             });
     };
 
+    const deleteFromPending = (imageName) => {
+        console.log(imageName);
+        axios.delete(`/api/upload/image/approved/${encodeURIComponent(imageName)}`)
+            .then(() => {
+                console.log('Image deleted successfully');
+                // Refresh pending images after deletion
+                //getPendingImages();
+            })
+            .catch(error => {
+                console.error('Error deleting image:', error);
+                alert('Something went wrong');
+            });
+    };
+
     const approveImage = async (imageName) => {
         try {
             await axios.put(`/api/upload/approve/${encodeURIComponent(imageName)}`);
-            deleteImage(imageName)
+            deleteFromPending(imageName)
             getPendingImages(); // Refresh pending images after approval
         } catch (error) {
             console.error('Error approving image:', error);
