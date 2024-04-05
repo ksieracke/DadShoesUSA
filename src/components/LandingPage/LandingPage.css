@@ -1,6 +1,15 @@
 /* --------------------------------------------------------------------------------
 Grid
 -------------------------------------------------------------------------------- */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  text-align: center; /* Center text inside the container */
+}
+.dadQuote {
+  text-align: center;
+}
 
 .grid {
   display: flex;

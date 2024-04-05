@@ -1,0 +1,25 @@
+.purchase-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Align items vertically */
+    padding: 20px; /* Adjust padding as needed */
+}
+
+.image-container {
+    flex: 0 0 45%; /* Set image container to take up 45% of the container width */
+}
+
+.form-container {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    flex: 0 0 45%;
+}
+.form-container .MuiFormControl-root {
+    width: 60%; /* Set form control width to 60% of the container width */
+    margin-right: 10px; /* Add some space between the size selector and the button */
+
+}
+
+.form-container .MuiButton-root {
+    width: 95%; /* Set button width to 35% of the container width */
+}
