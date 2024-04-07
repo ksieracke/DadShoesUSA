@@ -39,11 +39,13 @@ function GalleryPage() {
     }, [imageList]);
 
     return (
-        <div>
-            <h1>Dad Shoes in Action</h1>
-            <div className='upload'>
+        <div style={{ padding: '20px', textAlign: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+                <h1 style={{ marginBottom: '10px', marginTop: '0' }}>Dad Shoes Gallery</h1>
                 <Link to="/upload">
-                    <Button>Upload an Image of your Dad Shoes in Action</Button>
+                    <Button variant="contained" color="primary" style={{ whiteSpace: 'pre-line', wordWrap: 'break-word', maxWidth: '200px' }}>
+                        Upload an Image
+                    </Button>
                 </Link>
             </div>
             <Grid container spacing={2}>
@@ -55,6 +57,7 @@ function GalleryPage() {
                         </Paper>
                     </Grid>
                 ))}
+                
             </Grid>
         </div>
     )

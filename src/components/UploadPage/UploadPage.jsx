@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { Grid, Paper, Button } from '@mui/material';
 
 function UploadPage() {
     const user = useSelector((store) => store.user);
@@ -20,36 +21,32 @@ function UploadPage() {
 
     const handleCaptionChange = (event) => {
         setCaption(event.target.value);
-        console.log(selectedFile);
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         if (!selectedFile) {
-        alert('Please select a file');
-        return;
-        }
-        else{
+            alert('Please select a file');
+            return;
+        } else {
             dispatch({
                 type: 'UPLOAD_TO_DB',
                 payload: {
-                file: selectedFile.name,
-                caption: caption,
-                id: user.id,
+                    file: selectedFile.name,
+                    caption: caption,
+                    id: user.id,
                 },
             })
 
-            // const fileToUpload=event.target.files[0];
-            // setSelectedFile(fileToUpload);
-
-            const fileName=encodeURIComponent(selectedFile.name);
+            const fileName = encodeURIComponent(selectedFile.name);
             const formData = new FormData();
             formData.append('image', selectedFile);
-            axios.post(`/api/upload/image?imageName=${fileName}`, formData).then(response =>{
+            axios.post(`/api/upload/image?imageName=${fileName}`, formData)
+            .then(response => {
                 console.log("SUCCESSFUL UPLOAD TO S3");
                 clearForm();
-            }).catch(error =>{
+            }).catch(error => {
                 console.log('error', error);
                 alert('something went wrong with s3 upload')
             })
@@ -57,28 +54,47 @@ function UploadPage() {
     };
 
     return (
-        <>
-        <p>UPLOAD PAGE</p>
-        <form onSubmit={handleSubmit}>
-            <input type="file" onChange={handleFileChange} />
-            <br />
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <div style={{ padding: '20px', textAlign: 'center', width: '300px', marginTop: '-125px'  }}>
+                <h2>Upload an image of your Dad Shoes in action</h2>
+                {selectedFile && (
+                    <div style={{ marginTop: '20px' }}>
+                        <Paper elevation={3} style={{ textAlign: 'center', padding: '10px', height: '300px', position: 'relative' }}>
+                            <img src={URL.createObjectURL(selectedFile)} alt="Preview" style={{ maxWidth: '100%', height: '240px', objectFit: 'cover' }} />
+                            <p>{caption}</p>
+                        </Paper>
+                    </div>
+                )}
+                <br/ >
+                <form>
+    <label htmlFor="upload-button">
+        <Button variant="outlined" component="span">
+            Upload File
             <input
-            type="text"
-            value={caption}
-            onChange={handleCaptionChange}
-            placeholder="Enter caption"
+                type="file"
+                id="upload-button"
+                hidden
+                onChange={handleFileChange}
             />
-            <br />
-            <button type="submit">Upload</button>
-        </form>
-        {selectedFile && (
-            <div>
-            <p>Preview:</p>
-            <img src={URL.createObjectURL(selectedFile)} alt="Preview" />
+        </Button>
+    </label>
+    <br />
+    <br />
+    <input
+        type="text"
+        value={caption}
+        onChange={handleCaptionChange}
+        placeholder="Enter caption"
+        style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+    />
+    <br />
+    <Button variant="outlined" component="span" type="submit" onClick={handleSubmit}>Submit</Button>
+
+</form>
+
             </div>
-        )}
-        </>
+        </div>
     );
-    }
+}
 
 export default UploadPage;
