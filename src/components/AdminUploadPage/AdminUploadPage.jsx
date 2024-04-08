@@ -56,22 +56,15 @@ function AdminUploadPage() {
             .then(() => {
                 console.log('Image deleted successfully from S3 bucket');
                 // Now, delete the image from the database
-                axios.delete(`/api/upload/image/${encodeURIComponent(imageName)}`)
-                    .then(() => {
-                        console.log('Image deleted successfully from the database');
-                        getPendingImages(); // Refresh pending images after deletion
-                        window.location.reload(); // Refresh the page
-                    })
-                    .catch(error => {
-                        console.error('Error deleting image from the database:', error);
-                        alert('Something went wrong');
-                    });
+                window.location.reload(); // Refresh the page
+                
             })
             .catch(error => {
                 console.error('Error deleting image from S3 bucket:', error);
                 alert('Something went wrong');
             });
     };
+    
     
 
     const deleteFromPending = (imageName) => {
@@ -112,9 +105,9 @@ function AdminUploadPage() {
             <Grid container spacing={2}>
                 {pendingImageList.slice(1).map((image, index) => (
                     <Grid item key={image.Key} xs={12} sm={6} md={4} lg={3}>
-                        <Paper elevation={3} style={{ textAlign: 'center', padding: '10px', height: '340px', position: 'relative' }}>
+                        <Paper elevation={3} style={{ textAlign: 'center', padding: '10px', height: '340px', position: 'relative', backgroundColor: '#e0ecfb' }}>
                             <img src={image.Url} alt={`Image ${index}`} style={{ maxWidth: '100%', height: '240px', objectFit: 'cover' }} />
-                            <p>{captionList[index]}</p>
+                            <p>{captionList[index+ pendingIndex-1]}</p>
                             <div>
                                 <Button onClick={() => approveImage(image.Key)} style={{ backgroundColor: 'green', color: 'white', marginRight: '5px' }}>Approve</Button>
                                 <Button onClick={() => deleteImage(image.Key)} style={{ backgroundColor: 'red', color: 'white' }}>Delete</Button>

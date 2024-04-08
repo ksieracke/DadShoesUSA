@@ -169,7 +169,7 @@ router.delete('/image/:imageName', async (req, res) => {
           res.sendStatus(200);
           //TODO write pool.query to delete caption from DB
           const imageToDelete=imageName.substring(imageName.indexOf("/")+1);
-          const queryText=`DELETE FROM picture_gallery WHERE url = $1`
+          const queryText=`DELETE FROM picture_gallery WHERE url = $1` //!!!!!!!!!
           pool.query(queryText, [imageToDelete])
           .then(result => {
             // Return the inserted row as the response

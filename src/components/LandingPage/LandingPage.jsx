@@ -6,7 +6,6 @@ import { Grid } from '@mui/material';
 import './LandingPage.css';
 
 // CUSTOM COMPONENTS
-import RegisterForm from '../RegisterForm/RegisterForm';
 
 function LandingPage() {
   const [heading, setHeading] = useState('Dad Shoes USA');
@@ -42,21 +41,22 @@ function LandingPage() {
   return (
     <div className="container">
       <h2>{heading}</h2>
-      <img src="../../../public/images/placeholderlandingimage.jpg"></img>
+      <h8><i>Step into Wisdom</i></h8>
+      <img src="../../../public/images/PXL_20240407_181338163.PORTRAIT (1).jpg"></img>
 
-        <h2 className='dadQuote'>
+        <h3 className='dadQuote'>
           {randomQuote.quote}
-        </h2>
+        </h3>
       <div className="grid">
         <Grid container spacing={2} className='promoPics'>
           <Grid item xs={4}>
-            <img src="../../../public/images/placeholder_image.jpeg" alt="Promo Image 1" />
+            <img src="../../../public/images/PXL_20240407_175046229~2.jpg" alt="Promo Image 1" />
           </Grid>
           <Grid item xs={4}>
-            <img src="../../../public/images/placeholder_image.jpeg" alt="Promo Image 2" />
+            <img src="../../../public/images/PXL_20240407_175714056-EDIT.jpg" alt="Promo Image 2" />
           </Grid>
           <Grid item xs={4}>
-            <img src="../../../public/images/placeholder_image.jpeg" alt="Promo Image 3" />
+            <img src="../../../public/images/PXL_20240407_181156135.PORTRAIT-EDIT.jpg" alt="Promo Image 3" />
           </Grid>
         </Grid>
       </div>

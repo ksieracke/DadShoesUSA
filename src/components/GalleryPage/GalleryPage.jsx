@@ -61,7 +61,7 @@ function GalleryPage() {
             <Grid container spacing={2}>
                 {imageList.slice(1).map((image, index) => (
                     <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
-                        <Paper elevation={3} style={{ textAlign: 'center', padding: '10px', height: '300px', position: 'relative' }}>
+                        <Paper elevation={3} style={{ textAlign: 'center', padding: '10px', height: '300px', position: 'relative', backgroundColor: '#e0ecfb' }}>
                             <img src={image.Url} alt={`Image ${index}`} style={{ maxWidth: '100%', height: '240px', objectFit: 'cover' }} />
                             <p style={{ position: 'absolute', bottom: '10px', left: '0', right: '0', margin: 'auto' }}>{captionList[index]}</p>
                         </Paper>

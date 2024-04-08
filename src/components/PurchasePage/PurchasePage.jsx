@@ -66,9 +66,11 @@ function PurchasePage() {
                         </FormControl>
                     </Grid>
                     <Grid item xs={4} style={{ display: 'flex', justifyContent: 'center' }}>
-                        <Button onClick={handlePurchaseSubmit} variant="contained" color="primary">
-                            Buy Now
-                        </Button>
+                        <Link to="/checkout" style={{ textDecoration: 'none' }}>
+                            <Button onClick={handlePurchaseSubmit} variant="contained" color="primary">
+                                Buy Now
+                            </Button>
+                        </Link>
                     </Grid>
                 </Grid>
             </div>

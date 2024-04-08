@@ -11,6 +11,12 @@ Grid
   text-align: center;
 }
 
+h2 {
+  margin-top: -30px;
+  margin-bottom: 0px;
+}
+
+
 .grid {
   display: flex;
   flex: 0 1 auto;

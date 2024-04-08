@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 
 function CheckoutPage() {
     const dispatch = useDispatch();
     const storeSize=useSelector((store)=>store.size);
     const user=useSelector((store)=>store.user);
+    const history=useHistory();
     
 
 
@@ -100,6 +102,7 @@ function CheckoutPage() {
         if (success) {
             alert("Payment successful!!");
             console.log('Order successful . Your order id is--', orderID);
+            history.push("/thankyou");
         }
     },[success]);
 
