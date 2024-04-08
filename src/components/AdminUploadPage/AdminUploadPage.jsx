@@ -4,14 +4,13 @@ import { Grid, Paper, Button } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 
 function AdminUploadPage() {
-    const pendingIndex = useSelector((store)=>store.pendingCaptionStartIndex);
+    const pendingIndex = useSelector((store) => store.pendingCaptionStartIndex);
 
     const [pendingImageList, setPendingImageList] = useState([]);
     const [captionList, setCaptionList] = useState([]);
     const [imageList, setImageList] = useState([]);
 
     const dispatch = useDispatch();
-
 
     const getPendingImages = async () => {
         try {
@@ -34,25 +33,13 @@ function AdminUploadPage() {
                 payload: response.data.length,
             });
 
-            console.log("imageList length: ",pendingIndex);
+            console.log("imageList length: ", pendingIndex);
 
         }).catch(error => {
             console.log('error', error);
             alert('Something went wrong');
         });
     }
-
-    // const getCaptions = (images) => {
-    //     const keys = images.map(image => image.Key);
-    //     axios.post('/api/upload/captions/admin', { keys })
-    //         .then(response => {
-    //             setCaptionList(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.log('error', error);
-    //             alert('Something went wrong');
-    //         });
-    // }
 
     const getCaptions = () => {
         axios.get('/api/upload/captions').then(response => {
@@ -67,20 +54,32 @@ function AdminUploadPage() {
         console.log(imageName);
         axios.delete(`/api/upload/image/${encodeURIComponent(imageName)}`)
             .then(() => {
-                console.log('Image deleted successfully');
-                getPendingImages(); // Refresh pending images after deletion
+                console.log('Image deleted successfully from S3 bucket');
+                // Now, delete the image from the database
+                axios.delete(`/api/upload/image/${encodeURIComponent(imageName)}`)
+                    .then(() => {
+                        console.log('Image deleted successfully from the database');
+                        getPendingImages(); // Refresh pending images after deletion
+                        window.location.reload(); // Refresh the page
+                    })
+                    .catch(error => {
+                        console.error('Error deleting image from the database:', error);
+                        alert('Something went wrong');
+                    });
             })
             .catch(error => {
-                console.error('Error deleting image:', error);
+                console.error('Error deleting image from S3 bucket:', error);
                 alert('Something went wrong');
             });
     };
+    
 
     const deleteFromPending = (imageName) => {
         console.log(imageName);
         axios.delete(`/api/upload/image/approved/${encodeURIComponent(imageName)}`)
             .then(() => {
                 console.log('Image deleted successfully');
+                axios.delete()
             })
             .catch(error => {
                 console.error('Error deleting image:', error);
@@ -93,17 +92,19 @@ function AdminUploadPage() {
             await axios.put(`/api/upload/approve/${encodeURIComponent(imageName)}`);
             deleteFromPending(imageName)
             getPendingImages(); // Refresh pending images after approval
+            window.location.reload(); // Refresh the page
         } catch (error) {
             console.error('Error approving image:', error);
             alert('Failed to approve the image');
         }
     };
     
+
     useEffect(() => {
         getPendingImages();
         getCaptions();
         getImages();
-        }, []);
+    }, []);
 
     return (
         <div style={{ padding: '20px', textAlign: 'center' }}>
@@ -111,12 +112,12 @@ function AdminUploadPage() {
             <Grid container spacing={2}>
                 {pendingImageList.slice(1).map((image, index) => (
                     <Grid item key={image.Key} xs={12} sm={6} md={4} lg={3}>
-                        <Paper elevation={3} style={{ textAlign: 'center', padding: '10px', height: '300px', position: 'relative' }}>
+                        <Paper elevation={3} style={{ textAlign: 'center', padding: '10px', height: '340px', position: 'relative' }}>
                             <img src={image.Url} alt={`Image ${index}`} style={{ maxWidth: '100%', height: '240px', objectFit: 'cover' }} />
-                            <p>{captionList[index+pendingIndex-1]}</p>
+                            <p>{captionList[index]}</p>
                             <div>
-                                <Button onClick={() => approveImage(image.Key)}>Approve</Button>
-                                <Button onClick={() => deleteImage(image.Key)}>Delete</Button>
+                                <Button onClick={() => approveImage(image.Key)} style={{ backgroundColor: 'green', color: 'white', marginRight: '5px' }}>Approve</Button>
+                                <Button onClick={() => deleteImage(image.Key)} style={{ backgroundColor: 'red', color: 'white' }}>Delete</Button>
                             </div>
                         </Paper>
                     </Grid>

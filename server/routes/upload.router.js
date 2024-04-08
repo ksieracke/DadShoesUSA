@@ -16,28 +16,31 @@ const s3Client = new aws.S3({
     region: process.env.AWS_REGION,
 });
 
-//post route to handle upload image upload to S3 bucket pending-Images folder
-router.post('/image', async (req, res)=>{
-  try{
+// post route to handle upload image upload to S3 bucket pending-Images folder
+router.post('/image', async (req, res) => {
+  try {
     const { imageName } = req.query;
-    const  imageData  = req.files.image.data;
+    const imageData = req.files.image.data;
+
+    // Prepend current timestamp to the image name
+    const timestamp = Date.now(); // Get current timestamp
+    const fileNameWithTimestamp = `${timestamp}_${imageName}`;
 
     const params = {
       Bucket: 'dad-shoes-usa-images',
-      Key: `pending-Images/${imageName}`,
+      Key: `pending-Images/${fileNameWithTimestamp}`,
       Body: imageData,
-      //ACL: 'public-read',
-  };
+    };
 
-    const uploadedImage=await s3Client.upload(params).promise();
-    console.log(uploadedImage.Location); //URL file can be accessed at
+    const uploadedImage = await s3Client.upload(params).promise();
+    console.log(uploadedImage.Location); // URL file can be accessed at
     res.sendStatus(201);
-  }catch (error){
+  } catch (error) {
     console.log(error);
     res.sendStatus(500);
-
   }
 });
+
 
 // POST route to handle image name & caption upload to DB
 router.post('/', (req, res) => {
@@ -98,7 +101,7 @@ router.get('/', async (req, res) => {
 router.get('/captions', async (req, res) => {
   try {
       // Query the database to fetch captions
-      const queryText = 'SELECT * FROM picture_gallery';
+      const queryText = 'SELECT * FROM picture_gallery ORDER BY id';
       const result = await pool.query(queryText);
       console.log("!!!!!!!!!",result);
       // Extract captions from the query result
@@ -202,18 +205,7 @@ router.delete('/image/approved/:imageName', async (req, res) => {
 
           console.log('Image deleted successfully from s3');
           res.sendStatus(200);
-          //TODO write pool.query to delete caption from DB
-          // const imageToDelete=imageName.substring(imageName.indexOf("/")+1);
-          // const queryText=`DELETE FROM picture_gallery WHERE url = $1`
-          // pool.query(queryText, [imageToDelete])
-          // .then(result => {
-          //   // Return the inserted row as the response
-          //   res.status(201).json(result.rows[0]);
-          // })
-          // .catch(error => {
-          //   console.error('Error deleting image from DB:', error);
-          //   res.status(500).json({ message: 'Error deleting image from db' });
-          // });
+          
       });
   } catch (error) {
       console.error('Error deleting image:', error);
