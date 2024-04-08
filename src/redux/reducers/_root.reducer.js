@@ -4,6 +4,7 @@ import user from './user.reducer';
 import size from'./size.reducer';
 import shipping from './shipping.reducer'
 import upload from './upload.reducer'
+import pendingCaptionStartIndex from './pendingCaptionsIndex.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   size,
   shipping,
   upload,
+  pendingCaptionStartIndex,
 });
 
 export default rootReducer;

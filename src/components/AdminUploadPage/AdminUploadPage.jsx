@@ -1,21 +1,66 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { Grid, Paper, Button } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
 
 function AdminUploadPage() {
-    const user = useSelector((store) => store.user);
+    const pendingIndex = useSelector((store)=>store.pendingCaptionStartIndex);
+
     const [pendingImageList, setPendingImageList] = useState([]);
+    const [captionList, setCaptionList] = useState([]);
+    const [imageList, setImageList] = useState([]);
+
+    const dispatch = useDispatch();
+
 
     const getPendingImages = async () => {
         try {
             const response = await axios.get('/api/upload/admin');
             console.log("Response data:", response.data);
             setPendingImageList(response.data);
+            getCaptions(response.data); // Fetch captions when images are fetched
         } catch (error) {
             console.log('Error fetching pending images:', error);
             alert('Something went wrong');
         }
+    }
+
+    const getImages = () => {
+        axios.get('/api/upload').then(response => {
+            console.log(response.data);
+            setImageList(response.data);
+            dispatch({
+                type: 'SET_PENDING_INDEX',
+                payload: response.data.length,
+            });
+
+            console.log("imageList length: ",pendingIndex);
+
+        }).catch(error => {
+            console.log('error', error);
+            alert('Something went wrong');
+        });
+    }
+
+    // const getCaptions = (images) => {
+    //     const keys = images.map(image => image.Key);
+    //     axios.post('/api/upload/captions/admin', { keys })
+    //         .then(response => {
+    //             setCaptionList(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.log('error', error);
+    //             alert('Something went wrong');
+    //         });
+    // }
+
+    const getCaptions = () => {
+        axios.get('/api/upload/captions').then(response => {
+            setCaptionList(response.data);
+        }).catch(error => {
+            console.log('error', error);
+            alert('Something went wrong');
+        });
     }
 
     const deleteImage = (imageName) => {
@@ -56,7 +101,9 @@ function AdminUploadPage() {
     
     useEffect(() => {
         getPendingImages();
-    }, []);
+        getCaptions();
+        getImages();
+        }, []);
 
     return (
         <div style={{ padding: '20px', textAlign: 'center' }}>
@@ -66,6 +113,7 @@ function AdminUploadPage() {
                     <Grid item key={image.Key} xs={12} sm={6} md={4} lg={3}>
                         <Paper elevation={3} style={{ textAlign: 'center', padding: '10px', height: '300px', position: 'relative' }}>
                             <img src={image.Url} alt={`Image ${index}`} style={{ maxWidth: '100%', height: '240px', objectFit: 'cover' }} />
+                            <p>{captionList[index+pendingIndex-1]}</p>
                             <div>
                                 <Button onClick={() => approveImage(image.Key)}>Approve</Button>
                                 <Button onClick={() => deleteImage(image.Key)}>Delete</Button>

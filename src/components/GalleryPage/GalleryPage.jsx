@@ -1,19 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Grid, Paper, Button } from '@mui/material';
 
 function GalleryPage() {
+    const dispatch = useDispatch();
     const user = useSelector((store) => store.user);
     const [imageList, setImageList] = useState([]);
     const [captionList, setCaptionList] = useState([]);
+    const [endingIndex, setEndingIndex] = useState([]);
+    const pendingIndex = useSelector((store)=>store.pendingCaptionStartIndex);
 
     const getImages = () => {
         axios.get('/api/upload').then(response => {
             console.log(response.data);
             setImageList(response.data);
+            dispatch({
+                type: 'SET_PENDING_INDEX',
+                payload: response.data.length,
+            });
+
+            console.log("imageList length: ",pendingIndex);
+
         }).catch(error => {
             console.log('error', error);
             alert('Something went wrong');
@@ -56,6 +66,7 @@ function GalleryPage() {
                             <p style={{ position: 'absolute', bottom: '10px', left: '0', right: '0', margin: 'auto' }}>{captionList[index]}</p>
                         </Paper>
                     </Grid>
+                    
                 ))}
                 
             </Grid>
