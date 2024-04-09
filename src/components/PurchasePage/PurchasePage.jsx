@@ -47,16 +47,14 @@ function PurchasePage() {
                     <Grid item xs={12}>
                         <Box sx={{ textAlign: 'center' }}>
                         <div style={{ textAlign: 'center', width: '95%', margin: 'auto', marginBottom: '20px' }}> {/* Increased marginBottom here */}
-                                <Paper className='wisdomInEveryStep' elevation={3} style={{ backgroundColor: '#98b1c8'}}>
-                                    
+            <Paper className='wisdomInEveryStep' elevation={3} style={{ backgroundColor: '#98b1c8'}}>
                 <p className='wisdom' style={{ padding: '5px', marginBottom: '15px'  }}>
-                <p><b>Wisdom in every step:</b><br></br> <i>Each pair meticulously broken in by a seasoned dad mowing his lawn, infusing the shoes with a wealth of dad knowledge. Wear them, and absorb the years of invaluable dad wisdom.</i></p>
-            </p>
-            <br></br>
-            <h1>$65</h1>
-            <h3>+ Free Shipping!</h3>
-            <br></br>
-            
+                <p><b>Step into wisdom</b><br></br> <i>Each pair meticulously broken in by a seasoned dad mowing his lawn, infusing the shoes with a wealth of dad knowledge. Wear them, and absorb the years of invaluable dad wisdom.</i></p>
+                </p>
+                <br></br>
+                <h1>$65</h1>
+                <h3>+ Free Shipping!</h3>
+                <br></br>
             </Paper>
         </div>
                         </Box>

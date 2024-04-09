@@ -118,19 +118,23 @@ function CheckoutPage() {
 
   return (
     <Container maxWidth="md">
-      <Box mt={4}>
-        <Typography variant="h4" gutterBottom>
-          <h1>Checkout</h1>
-        </Typography>
-        <Typography variant="body1" paragraph>
-          Purchasing a size <u>{parseFloat(storeSize)}</u> pair of Dad Shoes
-        </Typography>
-        <Typography variant="body1" paragraph>
-          Please enter/verify the shipping address below
-        </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h4" gutterBottom>
+            <h1>Checkout</h1>
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Purchasing a size <u>{parseFloat(storeSize)}</u> pair of Dad Shoes
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Please enter/verify the shipping address below
+          </Typography>
+        </Grid>
 
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+
+        
+        <Grid item xs={12} md={6}>
+          <Box mt={2}>
             <Typography variant="h6" gutterBottom>
               Shipping:
             </Typography>
@@ -188,25 +192,31 @@ function CheckoutPage() {
                 value={shippingZip}
                 onChange={handleZipChange}
                 style={{ marginBottom: '16px' }}
-                />
-                
-            <p className="paypalInstructions"><b>You do not need a PayPal account, you can pay via a PayPal account or via Credit/Debit Card</b></p>
-            <div className="paypal-buttons-container">
+              />
+              <p className="paypalInstructions">
+                <b>You do not need a PayPal account, you can pay via Credit/Debit Card</b>
+              </p>
+              <div className="paypal-buttons-container">
                 <PayPalScriptProvider
-                    options={{ "client-id": 'Ada8jcq__0SFyYKCAJRDqsQYIw2jhzuAUdod_inu3msjgn0CSY_Jga5qseOYQOLARI1GU1UbF1AQ3QNu' }}
+                  options={{ "client-id": 'Ada8jcq__0SFyYKCAJRDqsQYIw2jhzuAUdod_inu3msjgn0CSY_Jga5qseOYQOLARI1GU1UbF1AQ3QNu' }}
                 >
-                    <PayPalButtons
+                  <PayPalButtons
                     style={{ layout: "vertical" }}
                     createOrder={createOrder}
                     onApprove={onApprove}
                     onError={onError}
-                    />
+                  />
                 </PayPalScriptProvider>
-            </div>
+              </div>
             </form>
-          </Grid>
+          </Box>
         </Grid>
-      </Box>
+        <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
+          <Box mt={2} display="flex" justifyContent="center">
+            <img src="../../../public/images/PXL_20240409_012914784.PORTRAIT-EDIT.jpg" alt="Promo Image 1" style={{ maxWidth: '100%', height: 'auto', borderRadius: '5px' }} />
+          </Box>
+        </Grid>
+      </Grid>
     </Container>
   );
 }
