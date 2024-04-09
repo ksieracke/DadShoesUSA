@@ -3,6 +3,7 @@
     justify-content: space-between;
     align-items: center; /* Align items vertically */
     padding: 20px; /* Adjust padding as needed */
+    flex-wrap: wrap; /* Allow flex items to wrap */
 }
 
 .image-container {
@@ -14,12 +15,35 @@
     align-items: center; /* Align items vertically */
     flex: 0 0 45%;
 }
+
 .form-container .MuiFormControl-root {
     width: 60%; /* Set form control width to 60% of the container width */
     margin-right: 10px; /* Add some space between the size selector and the button */
-
 }
 
 .form-container .MuiButton-root {
     width: 95%; /* Set button width to 35% of the container width */
+}
+
+/* New CSS for the <p> tags */
+.purchase-container p {
+    flex: 1; /* Each <p> takes up equal space */
+    text-align: center; /* Center align text */
+    margin: 0; /* Remove default margin */
+}
+
+.purchase-container p:first-child {
+    margin-right: auto; /* Push first <p> to the left edge */
+}
+
+.purchase-container p:last-child {
+    margin-left: auto; /* Push last <p> to the right edge */
+}
+.Quotes{
+    align-items: center; /* Align items vertically */
+    text-align: center;
+}
+
+.quoteContainer{
+    background-color: '#e0ecfb';
 }

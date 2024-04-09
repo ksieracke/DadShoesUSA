@@ -68,7 +68,17 @@ function UploadPage() {
                 <br/ >
                 <form>
     <label htmlFor="upload-button">
-        <Button variant="outlined" component="span">
+        <Button variant="outlined" component="span"  style={{
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+            maxWidth: '225px',
+            color: 'white',
+            backgroundColor: '#24496b',
+            transition: 'font-size 0.3s ease', // Add transition for smooth effect
+            fontSize: '1rem', // Set initial font size
+        }}
+        onMouseEnter={(e) => e.target.style.fontSize = '1.1rem'} // Increase font size on hover
+        onMouseLeave={(e) => e.target.style.fontSize = '1rem'}>
             Upload File
             <input
                 type="file"
@@ -88,7 +98,17 @@ function UploadPage() {
         style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
     />
     <br />
-    <Button variant="outlined" component="span" type="submit" onClick={handleSubmit}>Submit</Button>
+    <Button variant="outlined" component="span" type="submit" onClick={handleSubmit}  style={{
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+            maxWidth: '225px',
+            color: 'white',
+            backgroundColor: '#24496b',
+            transition: 'font-size 0.3s ease', // Add transition for smooth effect
+            fontSize: '1rem', // Set initial font size
+        }}
+        onMouseEnter={(e) => e.target.style.fontSize = '1.1rem'} // Increase font size on hover
+        onMouseLeave={(e) => e.target.style.fontSize = '1rem'}>Submit</Button>
 
 </form>
 

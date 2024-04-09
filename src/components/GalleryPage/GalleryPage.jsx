@@ -53,10 +53,24 @@ function GalleryPage() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
                 <h1 style={{ marginBottom: '10px', marginTop: '0' }}>Dad Shoes Gallery</h1>
                 <Link to="/upload">
-                    <Button variant="contained" color="primary" style={{ whiteSpace: 'pre-line', wordWrap: 'break-word', maxWidth: '200px' }}>
-                        Upload an Image
-                    </Button>
-                </Link>
+    <Button
+        variant="contained"
+        color="primary"
+        style={{
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+            maxWidth: '225px',
+            backgroundColor: '#24496b',
+            transition: 'font-size 0.3s ease', // Add transition for smooth effect
+            fontSize: '1rem', // Set initial font size
+        }}
+        onMouseEnter={(e) => e.target.style.fontSize = '1.1rem'} // Increase font size on hover
+        onMouseLeave={(e) => e.target.style.fontSize = '1rem'} // Reset font size on mouse leave
+    >
+        Upload an Image
+    </Button>
+</Link>
+
             </div>
             <Grid container spacing={2}>
                 {imageList.slice(1).map((image, index) => (

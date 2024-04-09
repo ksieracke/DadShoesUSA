@@ -1,0 +1,9 @@
+.paypal-buttons-container {
+    display: flex;
+    justify-content: center;
+}
+.paypalInstructions{
+    display: flex;
+    justify-content: center;
+
+}

@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { Grid } from '@mui/material';
+import { Grid, Paper } from '@mui/material';
 
 import './LandingPage.css';
-
-// CUSTOM COMPONENTS
 
 function LandingPage() {
   const [heading, setHeading] = useState('Dad Shoes USA');
@@ -22,12 +20,10 @@ function LandingPage() {
       url: '/api/quotes'
     })
     .then((response) => {
-      let quoteList=response.data
-      console.log(quoteList);
+      let quoteList = response.data;
       let randQuoteIndex = Math.floor(Math.random() * quoteList.length);
       let randomQuote = quoteList[randQuoteIndex];
       setRandomQuote(randomQuote);
-      console.log('Random Quote:', randomQuote);
     })
     .catch((err) => {
       console.log(err);
@@ -40,13 +36,18 @@ function LandingPage() {
 
   return (
     <div className="container">
-      <h2>{heading}</h2>
+      <h1>{heading}</h1>
       <h8><i>Step into Wisdom</i></h8>
-      <img src="../../../public/images/PXL_20240407_181338163.PORTRAIT (1).jpg"></img>
 
-        <h3 className='dadQuote'>
-          {randomQuote.quote}
-        </h3>
+
+      <img className='bigImage' src="../../../public/images/PXL_20240407_181338163.PORTRAIT (1).jpg" alt="Big Image" style={{ marginBottom: '10px', marginTop: '3px' }} />
+      
+      <Paper elevation={4} className='quotePaper' style={{ textAlign: 'center', width: '100%', padding: '10px', backgroundColor: '#e0ecfb', marginTop: '2px', marginBottom: '10px' }}>
+          <h2 className='dadQuote'>
+            {randomQuote.quote}
+          </h2>
+        </Paper>
+
       <div className="grid">
         <Grid container spacing={2} className='promoPics'>
           <Grid item xs={4}>
@@ -59,6 +60,8 @@ function LandingPage() {
             <img src="../../../public/images/PXL_20240407_181156135.PORTRAIT-EDIT.jpg" alt="Promo Image 3" />
           </Grid>
         </Grid>
+
+        
       </div>
     </div>
   );
