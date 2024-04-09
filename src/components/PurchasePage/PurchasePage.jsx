@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Grid from '@mui/material/Grid';
-import { Paper, backdropClasses } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 
 import './PurchasePage.css'; 
 
@@ -40,28 +40,35 @@ function PurchasePage() {
         
         <div className="purchase-container">
             <div className="image-container">
-                <img src="../../../public/images/PXL_20240409_012914784.PORTRAIT-EDIT.jpg" alt="Promo Image 1" />
+                <img style={{borderRadius: '5px', marginTop:'-82px', marginLeft: '40px'}} src="../../../public/images/PXL_20240409_012914784.PORTRAIT-EDIT.jpg" alt="Promo Image 1" />
             </div>
             <div className="form-container">
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12}>
                         <Box sx={{ textAlign: 'center' }}>
                         <div style={{ textAlign: 'center', width: '95%', margin: 'auto', marginBottom: '20px' }}> {/* Increased marginBottom here */}
-            <Paper className='wisdomInEveryStep' elevation={3} style={{ backgroundColor: '#98b1c8'}}>
+            <Paper className='wisdomInEveryStep' elevation={3} style={{ backgroundColor: '#e0ecfb', padding: '5px', marginLeft: '5px', paddingBottom: '15px'}}>
                 <p className='wisdom' style={{ padding: '5px', marginBottom: '15px'  }}>
-                <p><b>Step into wisdom</b><br></br> <i>Each pair meticulously broken in by a seasoned dad mowing his lawn, infusing the shoes with a wealth of dad knowledge. Wear them, and absorb the years of invaluable dad wisdom.</i></p>
+                    
+                <Typography variant="h7" gutterBottom style={{marginBottom: '0px'}}><p><b><h2>Step into wisdom</h2></b><i>All Dad Shoes have been meticulously broken in by a seasoned dad mowing his lawn, infusing the shoes with a wealth of dad knowledge. Wear them, and absorb the years of invaluable dad wisdom.</i></p></Typography>
                 </p>
+                <Paper style={{marginLeft: '60px', marginRight: '60px', marginTop: '5px', marginBottom: '5px', padding: '5px', backgroundColor: '#98b1c8'}}>
+                <Typography variant="h7" gutterBottom style={{marginBottom: '0px'}}><p><b>Each Purchase Includes: </b></p></Typography>
+                
+                <Paper style={{marginLeft: '40px', marginRight: '40px', marginTop: '5px', marginBottom: '5px', backgroundColor: '#e0ecfb'}}><p style={{margin: '5px'}}>-One pair of Dad Shoes</p></Paper>
+                <Paper style={{marginLeft: '40px', marginRight: '40px', marginTop: '5px', marginBottom: '5px', backgroundColor: '#e0ecfb'}}><p style={{margin: '5px'}}>-Collectable wallet sized card with an original piece of Dad advice, hand-written by the Dad that broke-in your shoes</p></Paper>
+                <Paper style={{marginLeft: '40px', marginRight: '40px', marginTop: '5px', marginBottom: '5px', backgroundColor: '#e0ecfb'}}><p style={{margin: '5px'}}>-A wealth of Dad knowledge infused into every pair, including but not limited to fatherly advice, home repair skills, BBQ skills, car maintenance skills, lawn care skills and dad jokes  </p></Paper>
+                </Paper>
+                <br></br>
                 <br></br>
                 <h1>$65</h1>
                 <h3>+ Free Shipping!</h3>
-                <br></br>
             </Paper>
         </div>
                         </Box>
                     </Grid>
-                
                     <Grid item xs={8} >
-                        <FormControl fullWidth>
+                        <FormControl fullWidth style={{marginLeft: '25px', backgroundColor:'#e0ecfb', borderRadius: '5px'}}>
                             <InputLabel id="demo-simple-select-label">Size</InputLabel>
                             <Select
                                 value={size}
@@ -87,45 +94,53 @@ function PurchasePage() {
                     <Grid item xs={4} style={{ display: 'flex', justifyContent: 'center' }}>
                         <Link to="/checkout" style={{ textDecoration: 'none' }}>
                             <Button onClick={handlePurchaseSubmit} variant="contained" style={{
-            whiteSpace: 'pre-line',
-            wordWrap: 'break-word',
-            maxWidth: '225px',
-            color: 'white',
-            backgroundColor: '#24496b',
-            transition: 'font-size 0.3s ease', // Add transition for smooth effect
-            fontSize: '1rem', // Set initial font size
+                                    whiteSpace: 'pre-line',
+                                    wordWrap: 'break-word',
+                                    width: '100%',
+                                    height:'100%',
+                                    maxWidth: '225px',
+                                    color: 'white',
+                                    backgroundColor: '#24496b',
+                                    transition: 'font-size 0.3s ease', // Add transition for smooth effect
+                                    fontSize: '1rem', // Set initial font size
+                                    marginRight: '60px',
+                                    paddingTop: '12px', // Adjust padding to align with the input
+                                    paddingBottom: '12px',
         }}
         onMouseEnter={(e) => e.target.style.fontSize = '1.1rem'} // Increase font size on hover
         onMouseLeave={(e) => e.target.style.fontSize = '1rem'}>
-                                Buy Now
+                                <b>Buy Now</b>
                             </Button>
                         </Link>
                     </Grid>
+                
                 </Grid>
             </div>
+            <br></br>
         </div>
         <Paper style={{backgroundColor: '#e0ecfb', padding: '8px'}}>
         <div className='quoteContainer'>
         <i><b><h3 className='Quotes'>Customer Testimonials</h3></b></i>
         <Grid container spacing={2} justifyContent="center">
             
+            
             <Grid item xs={12} md={4} textAlign="center">
-                <Paper style={{backgroundColor: '#e0ecfb', padding: '8px'}}><p>"My Dad Shoes gave me a huge jump start on fatherhood, perfect swaddle every time, ability to fix household objects with just a few simple tools and a can-do attitude, and so much more"</p></Paper>
+            <Paper elevation={8} style={{backgroundColor: '#e0ecfb', padding: '8px'}}><p>"I wear my Dad Shoes because nothing shows 'I'm a responsible adult' quite like wearing sneakers with grass stains."</p></Paper>
             </Grid>
             <Grid item xs={12} md={4} textAlign="center">
-            <Paper style={{backgroundColor: '#e0ecfb', padding: '8px'}}><p>"I wear my Dad Shoes because nothing shows 'I'm a responsible adult' quite like wearing sneakers with grass stains."</p></Paper>
+                <Paper elevation={8} style={{backgroundColor: '#e0ecfb', padding: '8px'}}><p>"My Dad Shoes gave me a huge jump start on fatherhood, diaper changing master, perfect swaddle every time, ability to fix household objects with just a few simple tools and a can-do attitude, plus so much more"</p></Paper>
             </Grid>
             <Grid item xs={12} md={4} textAlign="center">
-            <Paper style={{backgroundColor: '#e0ecfb', padding: '8px'}}><p>"I used to dread mowing the lawn, but now with my Dad Shoes, it's a meditative experience. Plus, the lawn looks great!"</p></Paper>
+            <Paper elevation={8} style={{backgroundColor: '#e0ecfb', padding: '8px'}}><p>"I used to dread mowing the lawn, but now with my Dad Shoes, it's a meditative experience. Plus, the lawn looks great!"</p></Paper>
             </Grid>
             <Grid item xs={12} md={4} textAlign="center">
-            <Paper style={{backgroundColor: '#e0ecfb', padding: '8px'}}><p>"Dad Shoes are like a secret handshake among dads. Instant respect guaranteed!"</p></Paper>
+            <Paper elevation={8} style={{backgroundColor: '#e0ecfb', padding: '8px'}}><p>"Dad Shoes are like a secret handshake among dads. Instant mutual respect!"</p></Paper>
             </Grid>
             <Grid item xs={12} md={4} textAlign="center">
-            <Paper style={{backgroundColor: '#e0ecfb', padding: '8px'}}><p>"My Dad Shoes are like a Swiss Army knife for fatherhood - versatile, reliable, and always ready for action."</p></Paper>
+            <Paper elevation={8} style={{backgroundColor: '#e0ecfb', padding: '8px'}}><p>"My Dad Shoes are like a Swiss Army knife for fatherhood - versatile, reliable, and always ready for action."</p></Paper>
             </Grid>
             <Grid item xs={12} md={4} textAlign="center">
-            <Paper style={{backgroundColor: '#e0ecfb', padding: '8px'}}><p>"Wearing Dad Shoes is like wearing a badge of honor. It says, 'I'm a dad, and I'm proud of it!'"</p></Paper>
+            <Paper elevation={8} style={{backgroundColor: '#e0ecfb', padding: '8px'}}><p>"Wearing Dad Shoes is like wearing a badge of honor. It says, 'I'm a dad, and I'm proud of it!'"</p></Paper>
             </Grid>
         </Grid>
         </div>

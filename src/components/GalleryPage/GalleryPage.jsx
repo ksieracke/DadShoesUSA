@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Grid, Paper, Button } from '@mui/material';
+import { Grid, Paper, Button, Typography } from '@mui/material';
+import './GalleryPage.css'; 
 
 function GalleryPage() {
     const dispatch = useDispatch();
@@ -49,40 +49,23 @@ function GalleryPage() {
     }, [imageList]);
 
     return (
-        <div style={{ padding: '20px', textAlign: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-                <h1 style={{ marginBottom: '10px', marginTop: '0' }}>Dad Shoes Gallery</h1>
+        <div className="gallery-container">
+            <div className="gallery-header">
+                <Typography variant="h3" gutterBottom className="gallery-title">Dad Shoes Customer Gallery</Typography>
                 <Link to="/upload">
-    <Button
-        variant="contained"
-        color="primary"
-        style={{
-            whiteSpace: 'pre-line',
-            wordWrap: 'break-word',
-            maxWidth: '225px',
-            backgroundColor: '#24496b',
-            transition: 'font-size 0.3s ease', // Add transition for smooth effect
-            fontSize: '1rem', // Set initial font size
-        }}
-        onMouseEnter={(e) => e.target.style.fontSize = '1.1rem'} // Increase font size on hover
-        onMouseLeave={(e) => e.target.style.fontSize = '1rem'} // Reset font size on mouse leave
-    >
-        Upload an Image
-    </Button>
-</Link>
-
+                    <Button variant="contained" color="primary" className="upload-button" style={{width: '250px', height: '50px', backgroundColor: '#24496b',  fontSize: '1.1rem', transition: 'font-size 0.3s ease'}} onMouseEnter={(e) => e.target.style.fontSize = '1.2rem'} // Increase font size on hover
+        onMouseLeave={(e) => e.target.style.fontSize = '1.1rem'}><b>Upload an Image</b></Button>
+                </Link>
             </div>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} className="image-grid">
                 {imageList.slice(1).map((image, index) => (
                     <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
-                        <Paper elevation={3} style={{ textAlign: 'center', padding: '10px', height: '300px', position: 'relative', backgroundColor: '#e0ecfb' }}>
-                            <img src={image.Url} alt={`Image ${index}`} style={{ maxWidth: '100%', height: '240px', objectFit: 'cover' }} />
-                            <p style={{ position: 'absolute', bottom: '10px', left: '0', right: '0', margin: 'auto' }}>{captionList[index]}</p>
+                        <Paper elevation={3} className="image-paper" style={{backgroundColor: '#e0ecfb'}} >
+                            <img src={image.Url} alt={`Image ${index}`} className="image" />
+                            <Typography variant="body2" className="caption" style={{padding: '5px'}}>{captionList[index]}</Typography>
                         </Paper>
                     </Grid>
-                    
                 ))}
-                
             </Grid>
         </div>
     )

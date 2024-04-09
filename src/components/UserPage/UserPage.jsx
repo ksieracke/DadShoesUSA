@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
+import { Button } from '@mui/material';
 
 function UserPage() {
   const user = useSelector((store) => store.user);
@@ -47,7 +48,19 @@ function UserPage() {
         <>
       <p>Email: {user.email}</p>
       <p>Address: {user.street_address+", "+user.city+", "+user.state+" "+ user.zip_code}</p>
-      <button onClick={changeUpdating}>Update</button>
+      <Button onClick={changeUpdating} variant="contained"
+        color="primary"
+        style={{
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+            maxWidth: '200px',
+            backgroundColor: '#24496b',
+            transition: 'font-size 0.3s ease', // Add transition for smooth effect
+            fontSize: '1rem', // Set initial font size
+        }}
+        onMouseEnter={(e) => e.target.style.fontSize = '1.1rem'} // Increase font size on hover
+        onMouseLeave={(e) => e.target.style.fontSize = '1rem'} // Reset font size on mouse leave
+    >Update Info</Button>
       </>
     )}
     {updating &&(
@@ -65,7 +78,13 @@ function UserPage() {
       </>
     )}
 
-      <LogOutButton className="btn" />
+      <LogOutButton className="btn" style={{
+            whiteSpace: 'pre-line',
+            wordWrap: 'break-word',
+            maxWidth: '200px',
+            transition: 'font-size 0.3s ease', // Add transition for smooth effect
+            fontSize: '1rem', // Set initial font size
+        }}/>
     </div>
   );
 }

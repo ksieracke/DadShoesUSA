@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import { Paper } from "@mui/material";
 
 import './CheckoutPage.css';
 
@@ -118,23 +118,28 @@ function CheckoutPage() {
 
   return (
     <Container maxWidth="md">
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant="h4" gutterBottom>
-            <h1>Checkout</h1>
-          </Typography>
-          <Typography variant="body1" paragraph>
-            Purchasing a size <u>{parseFloat(storeSize)}</u> pair of Dad Shoes
-          </Typography>
-          <Typography variant="body1" paragraph>
-            Please enter/verify the shipping address below
-          </Typography>
+        <Grid container spacing={2} >
+        <Grid item xs={12} >
+            <Typography variant="h4" gutterBottom>
+                <h1 style={{marginTop:'1px', marginLeft: '20px'}}>Checkout</h1>
+            </Typography>
+            <Typography variant="body1" paragraph>
+            You are purchasing a size <b><u>{parseFloat(storeSize)}</u></b> pair of Dad Shoes
+            </Typography>
+            <Typography variant="body1" paragraph style={{marginLeft: '125px'}} >
+                <h2>Total: $65</h2>
+            </Typography>
+            <br></br>
+            <Typography variant="body1" paragraph>
+                Please enter/verify the shipping address below
+            </Typography>
         </Grid>
 
 
         
         <Grid item xs={12} md={6}>
           <Box mt={2}>
+            <Paper style={{padding:'10px', backgroundColor:'#e0ecfb', textAlign: 'center'}}>
             <Typography variant="h6" gutterBottom>
               Shipping:
             </Typography>
@@ -193,6 +198,7 @@ function CheckoutPage() {
                 onChange={handleZipChange}
                 style={{ marginBottom: '16px' }}
               />
+              
               <p className="paypalInstructions">
                 <b>You do not need a PayPal account, you can pay via Credit/Debit Card</b>
               </p>
@@ -209,11 +215,12 @@ function CheckoutPage() {
                 </PayPalScriptProvider>
               </div>
             </form>
+            </Paper>
           </Box>
         </Grid>
         <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
           <Box mt={2} display="flex" justifyContent="center">
-            <img src="../../../public/images/PXL_20240409_012914784.PORTRAIT-EDIT.jpg" alt="Promo Image 1" style={{ maxWidth: '100%', height: 'auto', borderRadius: '5px' }} />
+            <img src="../../../public/images/PXL_20240409_012914784.PORTRAIT-EDIT.jpg" alt="Promo Image 1" style={{ maxWidth: '60%', height: 'auto', borderRadius: '5px', marginTop: '-180px'}} />
           </Box>
         </Grid>
       </Grid>

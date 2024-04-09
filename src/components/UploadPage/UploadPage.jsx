@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { Grid, Paper, Button } from '@mui/material';
+import { Grid, Paper, Button, Typography } from '@mui/material';
 
 function UploadPage() {
     const user = useSelector((store) => store.user);
@@ -55,8 +55,8 @@ function UploadPage() {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-            <div style={{ padding: '20px', textAlign: 'center', width: '300px', marginTop: '-125px'  }}>
-                <h2>Upload an image of your Dad Shoes in action</h2>
+            <div style={{ padding: '20px', textAlign: 'center', width: '400px', marginTop: '-125px'  }}>
+                <Typography variant="h4" gutterBottom>Upload an image of your Dad Shoes in action</Typography>
                 {selectedFile && (
                     <div style={{ marginTop: '20px' }}>
                         <Paper elevation={3} style={{ textAlign: 'center', padding: '10px', height: '300px', position: 'relative' }}>
