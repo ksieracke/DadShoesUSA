@@ -49,7 +49,7 @@ router.post('/', (req, res) => {
     console.log('req.file', req.file);
     try{
           // Insert data into the picture_gallery table
-          const queryText = `INSERT INTO picture_gallery (url, caption, customer_id) VALUES ($1, $2, $3) RETURNING *`;
+          const queryText = `INSERT INTO pending_gallery (url, caption, customer_id) VALUES ($1, $2, $3) RETURNING *`;
           const values = [req.body.file, req.body.caption, req.body.id];
 
           pool.query(queryText, values)
@@ -66,6 +66,31 @@ router.post('/', (req, res) => {
             console.error('Error handling image upload:', error);
             res.status(500).json({ message: 'Error handling image upload' });
             }
+});
+
+router.post('/approved', (req, res) => {
+  console.log('in router.post');
+  console.log('req.body', req.body);
+  console.log('req.file', req.file);
+  try{
+        // Insert data into the picture_gallery table
+        const queryText = `INSERT INTO picture_gallery (url, caption, customer_id) VALUES ($1, $2, $3) RETURNING *`;
+        const values = [req.body.file, req.body.caption, req.body.id];
+
+        pool.query(queryText, values)
+          .then(result => {
+            // Return the inserted row as the response
+            res.status(201).json(result.rows[0]);
+          })
+          .catch(error => {
+            console.error('Error inserting image:', error);
+            res.status(500).json({ message: 'Error inserting image' });
+          });
+      }
+      catch(error){
+          console.error('Error handling image upload:', error);
+          res.status(500).json({ message: 'Error handling image upload' });
+          }
 });
 
 //get route for gallery page to get approved images
@@ -102,6 +127,24 @@ router.get('/captions', async (req, res) => {
   try {
       // Query the database to fetch captions
       const queryText = 'SELECT * FROM picture_gallery ORDER BY id';
+      const result = await pool.query(queryText);
+      console.log("!!!!!!!!!",result);
+      // Extract captions from the query result
+      const captions = result.rows.map(row => row.caption);
+      console.log(captions);
+      // Send the captions as the response
+      res.json(captions);
+  } catch (error) {
+      console.error('Error retrieving captions:', error);
+      res.sendStatus(500);
+  }
+});
+
+//route to handle getting captions for pending images
+router.get('/captions/pending', async (req, res) => {
+  try {
+      // Query the database to fetch captions
+      const queryText = 'SELECT * FROM pending_gallery ORDER BY id';
       const result = await pool.query(queryText);
       console.log("!!!!!!!!!",result);
       // Extract captions from the query result
@@ -169,7 +212,7 @@ router.delete('/image/:imageName', async (req, res) => {
           res.sendStatus(200);
           //TODO write pool.query to delete caption from DB
           const imageToDelete=imageName.substring(imageName.indexOf("/")+1);
-          const queryText=`DELETE FROM picture_gallery WHERE url = $1` //!!!!!!!!!
+          const queryText=`DELETE FROM pending_gallery WHERE url = $1` //!!!!!!!!!
           pool.query(queryText, [imageToDelete])
           .then(result => {
             // Return the inserted row as the response
@@ -183,6 +226,24 @@ router.delete('/image/:imageName', async (req, res) => {
   } catch (error) {
       console.error('Error deleting image:', error);
       res.sendStatus(500);
+  }
+});
+
+router.delete('/image/pending/:caption', async (req, res) => {
+  try {
+    const { caption } = req.params;
+    console.log('Deleting image with caption:', caption);
+
+    const queryText = `DELETE FROM pending_gallery WHERE caption = $1`;
+    const queryValues = [caption];
+
+    await pool.query(queryText, queryValues);
+    
+    console.log('Image deleted successfully from pending_gallery table');
+    res.sendStatus(200);
+  } catch (error) {
+    console.error('Error deleting image from pending_gallery table:', error);
+    res.sendStatus(500);
   }
 });
 
@@ -212,6 +273,8 @@ router.delete('/image/approved/:imageName', async (req, res) => {
       res.sendStatus(500);
   }
 });
+
+
 
 // Route to approve an image
 router.put('/approve/:imageName', async (req, res) => {

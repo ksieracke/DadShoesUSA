@@ -46,6 +46,7 @@ function UploadPage() {
             .then(response => {
                 console.log("SUCCESSFUL UPLOAD TO S3");
                 clearForm();
+                alert('Thank you, your submission will be reviewed shortly');
             }).catch(error => {
                 console.log('error', error);
                 alert('something went wrong with s3 upload')

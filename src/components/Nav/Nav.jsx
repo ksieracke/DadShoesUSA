@@ -9,7 +9,7 @@ function Nav() {
 
   return (
     <div className="nav">
-      <img className='logo' src="../../../public/images/DS_Logo.png" alt="Logo" style={{ maxWidth: '8%'  }} />
+      <img className='logo' src="../../../public/images/DS_Logo.png" alt="Logo" style={{ maxWidth: '8%', paddingLeft: '10px'  }} />
 
       <div className="nav-links-left" style={{alignContent:'center'}}>
         <Link to="/home">
